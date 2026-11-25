@@ -1,0 +1,2 @@
+# Runtime dependencies (kept minimal on purpose - see docs/FIXES.md)
+pyyaml>=6.0

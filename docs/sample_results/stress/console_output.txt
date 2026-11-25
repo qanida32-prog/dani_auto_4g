@@ -1,0 +1,19 @@
+﻿
+ammeter   n    mean (A)   median (A)  std (A)  min (A)     max (A)   fail %  result
+--------  ---  ---------  ----------  -------  ----------  --------  ------  ------
+greenlee  186  0.576893   0.124985    2.857    0.0117911   34.2461   7       PASS  
+entes     181  116.999    66.2394     214.6    6.76034     1707.24   9.5     PASS  
+circutor  181  0.0461735  0.0303556   0.08205  0.00434496  0.628567  9.5     PASS  
+
+rank  ammeter   run_id                           CV %   rel. err %  fail %  score
+----  --------  -------------------------------  -----  ----------  ------  -----
+1     circutor  20261125-135537-circutor-265ba7  177.7  52.64       9.5     325.3
+2     entes     20261125-135537-entes-cd414a     183.4  70.18       9.5     348.6
+3     greenlee  20261125-135537-greenlee-dd5a75  495.2  51.69       7       616.9
+
+Most reliable: circutor   (score = CV % + |relative error %| (if a reference is configured) + 10 x failure rate %; lower is better)
+
+Report:  C:\Dani_Pentera_QA\results\reports\20261125-135537-suite-0f5743.html
+Results: C:\Dani_Pentera_QA\results\runs
+
+VERDICT: PASS

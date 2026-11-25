@@ -1,0 +1,84 @@
+# Central configuration for the ammeter testing framework.
+
+testing:
+  sampling:
+    # Any TWO of the three values define the third; null = derive it.
+    measurements_count: 20
+    total_duration_seconds: null
+    sampling_frequency_hz: 10
+  connection:
+    # 127.0.0.1, not "localhost": on Windows "localhost" tries IPv6 ::1 first and
+    # waits ~2 s for it to fail on every request (see docs/FIXES.md #21).
+    host: 127.0.0.1
+    timeout_seconds: 2.0
+
+# Device protocol, as documented in README.md.
+# reference_current_a (optional) is the known true current, used for accuracy
+# assessment. The emulators have no physical "true" value, so the expected value of
+# each emulator's model is used (derivation in docs/DESIGN.md). On a real bench, put
+# the current from a calibrated reference meter here.
+ammeters:
+  greenlee:
+    port: 5000
+    command: "MEASURE_GREENLEE -get_measurement"
+    reference_current_a: 0.380307   # E[V] * E[1/R] = 5.5 * ln(1000) / 99.9
+  entes:
+    port: 5001
+    command: "MEASURE_ENTES -get_data"
+    reference_current_a: 68.75      # E[B] * E[K] = 0.055 * 1250
+  circutor:
+    port: 5002
+    command: "MEASURE_CIRCUTOR -get_measurement"
+    reference_current_a: 0.03025    # E[dt] * 10 * E[V] = 0.0055 * 10 * 0.55
+
+analysis:
+  statistical_metrics: [mean, median, std_dev, min, max]
+  visualization:
+    enabled: true
+    plot_types: [time_series, histogram, box_plot]
+
+result_management:
+  results_dir: results
+
+# Bonus: error simulation. Off by default; `run_tests.py run --simulate-errors` turns it on.
+error_simulation:
+  enabled: false
+  connection_error_rate: 0.05   # simulated timeouts
+  protocol_error_rate: 0.03     # simulated non-numeric replies
+  spike_rate: 0.05              # value x spike_factor
+  spike_factor: 10
+  seed: null                    # an integer makes the fault pattern reproducible
+
+# Pass/fail limits. A run FAILS if any limit is exceeded; null = not checked.
+# Layers, later wins: this section -> ammeters.<name>.acceptance_criteria -> the test plan's.
+acceptance_criteria:
+  max_failure_rate_percent: 0        # any failed request fails the run
+  min_frequency_ratio: 0.9           # achieved sampling rate must be >= 90 % of the target
+  max_cv_percent: null               # precision
+  max_abs_relative_error_percent: null  # accuracy; needs reference_current_a
+  max_outliers: null
+  max_drift_percent: null
+
+# Named test scenarios: `run_tests.py run --plan <name>`, list them with `run_tests.py plans`.
+# Every key is optional; what a plan does not set comes from the sections above.
+test_plans:
+  smoke:
+    description: "Quick check that every device answers"
+    sampling: {measurements_count: 5, sampling_frequency_hz: 10}
+  standard:
+    description: "Statistics with enough samples for a stable mean"
+    sampling: {measurements_count: 100, sampling_frequency_hz: 20}
+  precision:
+    description: "Precision limits for the two stable devices"
+    ammeters: [entes, circutor]
+    sampling: {measurements_count: 200, sampling_frequency_hz: 40}
+    acceptance_criteria: {max_cv_percent: 75, max_abs_relative_error_percent: 15}
+  soak:
+    description: "One minute at a low rate: looks for drift and intermittent failures"
+    sampling: {total_duration_seconds: 60, sampling_frequency_hz: 5}
+    acceptance_criteria: {max_drift_percent: 50}
+  stress:
+    description: "High rate with injected faults: the framework must record, not crash"
+    sampling: {measurements_count: 200, sampling_frequency_hz: 40}
+    error_simulation: {enabled: true, seed: 1234}
+    acceptance_criteria: {max_failure_rate_percent: 15, min_frequency_ratio: 0.8}

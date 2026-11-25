@@ -1,0 +1,55 @@
+{
+  "suite_id": "20261125-135537-suite-0f5743",
+  "created_at": "2026-11-25T11:55:42+00:00",
+  "run_ids": [
+    "20261125-135537-greenlee-dd5a75",
+    "20261125-135537-entes-cd414a",
+    "20261125-135537-circutor-265ba7"
+  ],
+  "comparison": {
+    "ranking": [
+      {
+        "rank": 1,
+        "ammeter": "circutor",
+        "run_id": "20261125-135537-circutor-265ba7",
+        "mean": 0.046173450499191165,
+        "cv_percent": 177.69328597097217,
+        "failure_rate_percent": 9.5,
+        "relative_error_percent": 52.639505782450144,
+        "score": 325.3327917534223
+      },
+      {
+        "rank": 2,
+        "ammeter": "entes",
+        "run_id": "20261125-135537-entes-cd414a",
+        "mean": 116.99886001690867,
+        "cv_percent": 183.44717072628538,
+        "failure_rate_percent": 9.5,
+        "relative_error_percent": 70.18016002459443,
+        "score": 348.6273307508798
+      },
+      {
+        "rank": 3,
+        "ammeter": "greenlee",
+        "run_id": "20261125-135537-greenlee-dd5a75",
+        "mean": 0.5768933296167277,
+        "cv_percent": 495.21816173122863,
+        "failure_rate_percent": 7.0,
+        "relative_error_percent": 51.69148335863596,
+        "score": 616.9096450898646
+      }
+    ],
+    "most_reliable": "circutor",
+    "method": "score = CV % + |relative error %| (if a reference is configured) + 10 x failure rate %; lower is better"
+  },
+  "metadata": {
+    "plan": "stress",
+    "passed": true,
+    "environment": {
+      "python": "3.11.9",
+      "platform": "Windows-10-10.0.26300-SP0",
+      "hostname": "Daniel-QA-RND"
+    }
+  },
+  "schema_version": 1
+}

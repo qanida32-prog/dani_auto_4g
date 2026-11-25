@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Tooling caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Runtime output (curated sample results live in docs/sample_results/)
+results/
+allure-results/
+allure-report/
+reports/
+!docs/sample_results/*/reports/
+
+# Personal Claude Code settings
+.claude/settings.local.json
