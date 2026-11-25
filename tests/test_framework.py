@@ -14,7 +14,10 @@ from src.testing.test_framework import AmmeterTestFramework, UnknownAmmeterError
 from src.utils.config import ConfigError, load_config
 from tests.conftest import EMULATORS, get_free_port, start_emulator
 
-FAST = SamplingConfig.from_values(measurements_count=8, sampling_frequency_hz=40)
+# 20 Hz, not faster: these tests check behaviour, not host speed. On a slow CI machine
+# (macOS runners) one request can take ~29 ms, so 40 Hz fails the frequency check there --
+# correctly, but for a reason unrelated to what these tests are about.
+FAST = SamplingConfig.from_values(measurements_count=8, sampling_frequency_hz=20)
 
 
 @pytest.fixture
@@ -24,7 +27,7 @@ def lab(tmp_path):
     config["testing"]["sampling"] = {
         "measurements_count": 8,
         "total_duration_seconds": None,
-        "sampling_frequency_hz": 40,
+        "sampling_frequency_hz": 20,
     }
     config["result_management"]["results_dir"] = str(tmp_path / "results")
     emulators = {}
@@ -116,7 +119,7 @@ def test_cli_run_list_show_compare(lab, capsys):
     config_file.write_text(yaml.safe_dump(config), encoding="utf-8")
     base = ["-c", str(config_file)]
 
-    assert run_tests.main([*base, "run", "--no-emulators", "-n", "5", "-f", "40"]) == 0
+    assert run_tests.main([*base, "run", "--no-emulators", "-n", "5", "-f", "20"]) == 0
     out = capsys.readouterr().out
     assert "Most reliable:" in out and "Report:" in out
 
@@ -175,7 +178,7 @@ def test_cli_plan_and_plans_command(lab, capsys):
         "tiny": {
             "description": "two samples, one device",
             "ammeters": ["circutor"],
-            "sampling": {"measurements_count": 2, "sampling_frequency_hz": 40},
+            "sampling": {"measurements_count": 2, "sampling_frequency_hz": 20},
         },
         "impossible": {
             "ammeters": ["entes"],

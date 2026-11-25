@@ -235,6 +235,12 @@ how cross-platform compatibility is verified. The one test that measures real ti
 loose bounds, because shared CI machines can oversleep by tens of milliseconds; the exact
 scheduling logic is tested with a fake clock.
 
+CI found two real timing bugs (see Sampling above) and one host limit. On the macOS runners
+a request to the in-process emulator takes about 29 ms, so 40 Hz (25 ms per slot) cannot be
+sustained there, and the frequency check correctly fails such a run. The integration tests
+therefore sample at 20 Hz: they test behaviour, and their result should not depend on how
+fast the CI machine is.
+
 The entry points check the Python version first (`src/__init__.py`). Python 3.8 or 3.9
 gets a one-line explanation and the command to fix it, not a `TypeError` from deep inside
 the code.
