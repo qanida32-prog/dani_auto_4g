@@ -2,6 +2,9 @@
 
 from __future__ import annotations
 
+import math
+import time
+
 import pytest
 
 from Ammeters.client import AmmeterConnectionError
@@ -141,3 +144,28 @@ def test_real_clock_timing_is_close_to_target():
     # of ms. The exact scheduling logic is covered by the fake-clock tests above.
     assert run.elapsed_s == pytest.approx(0.2, abs=0.1)
     assert max(s.jitter_s for s in run.samples) < 0.08
+
+
+def coarse_sleep(seconds: float) -> None:
+    """time.sleep as on Windows before Python 3.11: rounded up to the ~15.6 ms timer tick."""
+    tick = 0.0156
+    time.sleep(math.ceil(seconds / tick) * tick if seconds > 0 else 0)
+
+
+def test_hybrid_sleep_keeps_the_rate_with_a_coarse_timer():
+    """Regression: CI on Windows/Python 3.10 reached only ~87 % of 40 Hz."""
+    cfg = SamplingConfig.from_values(20, sampling_frequency_hz=40)
+    precise = Sampler(cfg, sleep=coarse_sleep, spin_margin_s=0.02).run(lambda: 1.0)
+    naive = Sampler(cfg, sleep=coarse_sleep, spin_margin_s=0.0).run(lambda: 1.0)
+
+    assert precise.elapsed_s == pytest.approx(0.5, abs=0.05)
+    # mean, not max: the OS can pause any process for a slot now and then
+    assert sum(s.jitter_s for s in precise.samples) / len(precise.samples) < 0.005
+    # without the spin phase every slot oversleeps by part of a tick
+    assert sum(s.jitter_s for s in naive.samples) / len(naive.samples) > 0.004
+
+
+def test_fake_clock_never_spins():
+    clock = FakeClock()
+    sampler = Sampler(SamplingConfig.from_values(3, sampling_frequency_hz=10), clock, clock.sleep)
+    assert sampler._spin_margin_s == 0.0

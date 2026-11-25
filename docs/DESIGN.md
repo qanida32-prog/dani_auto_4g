@@ -45,6 +45,17 @@ without touching the others.
 - **Timing is measured, not assumed.** Every sample stores its scheduled time, actual send
   time and round-trip latency. The analysis reports achieved frequency and jitter, so a
   run that could not keep up is visible in the results and not hidden.
+- **Achieved frequency = 1 / median interval** between consecutive requests. The first
+  version used (n − 1) / total span. The first CI run showed why that is wrong: on macOS
+  and on Windows with Python 3.10, healthy 8-sample runs at 40 Hz scored 77–89 % of the
+  target, because one late *last* sample stretched the span. A late sample lengthens one
+  interval and shortens the next, so the median ignores it. A device that is really too
+  slow lengthens every interval and still shows. Lateness itself is reported as jitter.
+- **Hybrid waiting.** `time.sleep` alone is not precise: before Python 3.11, Windows rounds
+  every sleep up to its ~15.6 ms timer tick (measured on this machine: `sleep(5 ms)` took
+  14 ms on average, 24 ms at worst). The sampler sleeps until shortly before the deadline
+  (20 ms there, 3 ms elsewhere), then yields in a loop until the clock reaches it. A
+  regression test simulates the coarse timer and checks the jitter stays low.
 - **Failures do not abort a run.** A failed request is stored with its error message and
   counted. A flaky device produces a result that says "8 % failed", not a stack trace.
   Unexpected exceptions (bugs) are *not* caught, so they still fail loudly.
@@ -215,7 +226,7 @@ browser and can be attached to a ticket.
 | `test_framework.py` | end to end against real emulators on free ports: every device, suites, a device that is down, error simulation, verdicts, per-run log files, every CLI command and its exit codes |
 
 Tests bind emulators to OS-assigned free ports and write results to `tmp_path`, so they can
-run while `main.py` is running and never touch `results/`. The 106 tests run in about 9 s.
+run while `main.py` is running and never touch `results/`. The 110 tests run in about 10 s.
 
 **Continuous integration** (`.github/workflows/tests.yml`) runs on every push, on Ubuntu,
 macOS and Windows with Python 3.10 and 3.13: lint, the full test suite, `main.py`, and the

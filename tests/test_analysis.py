@@ -141,3 +141,23 @@ def test_chart_axis_ticks_cover_the_data(lo, hi):
     ticks = _nice_ticks(lo, hi)
     assert ticks[0] <= lo and ticks[-1] >= hi
     assert 3 <= len(ticks) <= 12
+
+
+def test_one_late_last_sample_does_not_skew_achieved_frequency():
+    """Regression: (n-1)/span made a healthy 8-sample run at 40 Hz look like 34 Hz."""
+    run = make_run([1.0] * 8, freq=40)
+    last = run.samples[-1]
+    run.samples[-1] = Sample(
+        last.index, last.scheduled_offset_s, last.actual_offset_s + 0.0156, 0.001, 1.0
+    )
+    t = analyze(run).timing
+    assert t.achieved_frequency_hz == pytest.approx(40.0)
+    assert t.max_jitter_ms == pytest.approx(15.6)
+
+
+def test_device_slower_than_the_rate_shows_in_achieved_frequency():
+    run = make_run([1.0] * 6, freq=40)
+    run.samples[:] = [
+        Sample(s.index, s.scheduled_offset_s, s.index * 0.05, 0.05, 1.0) for s in run.samples
+    ]
+    assert analyze(run).timing.achieved_frequency_hz == pytest.approx(20.0)

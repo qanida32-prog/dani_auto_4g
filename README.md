@@ -206,7 +206,7 @@ src/testing/
   error_simulation.py      fault injection
   emulators.py             start / stop the emulators
 src/utils/                 config loader, logger, helpers
-tests/                     pytest suite (106 tests)
+tests/                     pytest suite (110 tests)
 .github/workflows/         CI: Ubuntu, macOS, Windows
 docs/                      assignment, fixes log, design notes, sample results
 main.py                    one measurement from each emulator

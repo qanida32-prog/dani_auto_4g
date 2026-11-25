@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import math
+import sys
 import time
 from collections.abc import Callable
 from dataclasses import asdict, dataclass, field
@@ -135,6 +136,12 @@ class Sampler:
 
     A failing request (:class:`AmmeterError`) is recorded and sampling continues, so a
     flaky device produces a result with a failure count instead of no result at all.
+
+    Waiting is hybrid: ``sleep()`` until ``spin_margin_s`` before the deadline, then yield
+    in a loop until the clock reaches it. ``time.sleep`` alone is not precise enough:
+    before Python 3.11, Windows rounds every sleep up to its ~15.6 ms timer tick (measured:
+    ``sleep(5 ms)`` took 14 ms on average, 24 ms at worst), and loaded machines oversleep
+    too. At 40 Hz that cost up to 23 % of the sampling rate in CI.
     """
 
     def __init__(
@@ -142,10 +149,16 @@ class Sampler:
         config: SamplingConfig,
         clock: Callable[[], float] = time.perf_counter,
         sleep: Callable[[float], None] = time.sleep,
+        spin_margin_s: float | None = None,
     ) -> None:
         self.config = config
         self._clock = clock
         self._sleep = sleep
+        if spin_margin_s is None:
+            # Only spin against the real clock; an injected fake clock does not advance on
+            # its own, so spinning on it would never end.
+            spin_margin_s = default_spin_margin() if clock is time.perf_counter else 0.0
+        self._spin_margin_s = spin_margin_s
 
     def run(self, measure: Callable[[], float]) -> SamplingRun:
         run = SamplingRun(self.config, started_at_epoch=time.time())
@@ -170,5 +183,16 @@ class Sampler:
 
     def _sleep_until(self, deadline: float) -> None:
         remaining = deadline - self._clock()
-        if remaining > 0:
-            self._sleep(remaining)
+        if remaining <= 0:
+            return
+        if remaining > self._spin_margin_s:
+            self._sleep(remaining - self._spin_margin_s)
+        while self._clock() < deadline:
+            self._sleep(0)  # yield the GIL to the other samplers in a suite
+
+
+def default_spin_margin() -> float:
+    """How long before a deadline to stop sleeping and start yielding in a loop."""
+    if sys.platform == "win32" and sys.version_info < (3, 11):
+        return 0.020  # coarse ~15.6 ms timer before 3.11's high-resolution waitable timer
+    return 0.003
