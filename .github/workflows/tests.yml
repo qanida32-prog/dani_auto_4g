@@ -40,13 +40,8 @@ jobs:
       - name: Smoke plan through the CLI
         run: python run_tests.py run --plan smoke
 
-      # Diagnostics: one device alone, to tell per-request slowness from contention
-      # between parallel samplers. Does not fail the build.
-      - name: Single device at 10 Hz (diagnostic)
-        if: always()
-        continue-on-error: true
-        run: python run_tests.py run -a circutor -n 10 -f 10
-
+      # Every request's send time and latency, so a timing problem on a runner can be
+      # diagnosed from the build log instead of guessed.
       - name: Per-request timing from the run logs
         if: always()
         shell: bash

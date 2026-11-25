@@ -14,9 +14,9 @@ from src.testing.test_framework import AmmeterTestFramework, UnknownAmmeterError
 from src.utils.config import ConfigError, load_config
 from tests.conftest import EMULATORS, get_free_port, start_emulator
 
-# 20 Hz, not faster: these tests check behaviour, not host speed. On a slow CI machine
-# (macOS runners) one request can take ~29 ms, so 40 Hz fails the frequency check there --
-# correctly, but for a reason unrelated to what these tests are about.
+# 20 Hz, not faster: these tests check behaviour, not host speed. Shared CI machines
+# (macOS runners) can wake up from sleep tens of ms late, which is unrelated to what these
+# tests are about.
 FAST = SamplingConfig.from_values(measurements_count=8, sampling_frequency_hz=20)
 
 

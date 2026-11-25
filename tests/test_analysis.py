@@ -161,3 +161,14 @@ def test_device_slower_than_the_rate_shows_in_achieved_frequency():
         Sample(s.index, s.scheduled_offset_s, s.index * 0.05, 0.05, 1.0) for s in run.samples
     ]
     assert analyze(run).timing.achieved_frequency_hz == pytest.approx(20.0)
+
+
+def test_achieved_frequency_on_real_macos_ci_timings():
+    """Regression with the send times a macOS CI runner actually logged at 10 Hz: random
+    wake-ups up to 77 ms late, absolute schedule catching up. Median-gap said 0.84."""
+    sent = [0, 0.1769, 0.2204, 0.3679, 0.4102, 0.5296, 0.6751, 0.7056, 0.8771, 0.9517]
+    run = make_run([1.0] * len(sent), freq=10)
+    run.samples[:] = [Sample(i, i / 10, t, 0.001, 1.0) for i, t in enumerate(sent)]
+    t = analyze(run).timing
+    assert t.achieved_frequency_hz == pytest.approx(10, rel=0.05)
+    assert t.max_jitter_ms == pytest.approx(77.1, abs=0.1)  # lateness is still reported

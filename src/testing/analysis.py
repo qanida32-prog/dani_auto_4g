@@ -84,16 +84,19 @@ class TimingStatistics:
         samples = run.samples
         jitters = [s.jitter_s * 1000 for s in samples] or [0.0]
         latencies = [s.latency_s * 1000 for s in samples] or [0.0]
-        # 1 / median interval between consecutive requests. Not (n - 1) / total span: with
-        # few samples one late *last* sample moved that estimate by >10 % (CI failed a
-        # healthy 8-sample run at 40 Hz). A late sample lengthens one interval and shortens
-        # the next, so the median ignores it; a device too slow for the rate makes every
-        # interval long and still shows.
+        # 1 / (Theil-Sen slope of send time vs sample index): the robust average interval.
+        # Two simpler estimates failed on real CI data where wake-ups were randomly up to
+        # 77 ms late (macOS runners) and the absolute schedule then caught up:
+        #   (n - 1) / span     -> one late *last* sample swung it below 0.9 of target;
+        #   1 / median gap     -> gaps alternate long/short, the median of a few lands on
+        #                         either (0.84 on a run whose true rate was ~0.98).
+        # Theil-Sen uses all pairs of samples, so isolated late samples barely move it,
+        # while a device too slow for the rate stretches every pair and still shows.
         if len(samples) > 1:
-            offsets = [s.actual_offset_s for s in samples]
-            gaps = [offsets[i + 1] - offsets[i] for i in range(len(offsets) - 1)]
-            median_gap = statistics.median(gaps)
-            achieved = 1.0 / median_gap if median_gap > 0 else math.inf
+            slope = theil_sen_slope(
+                [s.index for s in samples], [s.actual_offset_s for s in samples]
+            )
+            achieved = 1.0 / slope if slope > 0 else math.inf
         else:
             achieved = math.nan
         return cls(

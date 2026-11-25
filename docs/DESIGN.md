@@ -45,12 +45,21 @@ without touching the others.
 - **Timing is measured, not assumed.** Every sample stores its scheduled time, actual send
   time and round-trip latency. The analysis reports achieved frequency and jitter, so a
   run that could not keep up is visible in the results and not hidden.
-- **Achieved frequency = 1 / median interval** between consecutive requests. The first
-  version used (n − 1) / total span. The first CI run showed why that is wrong: on macOS
-  and on Windows with Python 3.10, healthy 8-sample runs at 40 Hz scored 77–89 % of the
-  target, because one late *last* sample stretched the span. A late sample lengthens one
-  interval and shortens the next, so the median ignores it. A device that is really too
-  slow lengthens every interval and still shows. Lateness itself is reported as jitter.
+- **Achieved frequency = 1 / Theil–Sen slope of send time against sample index** (the
+  robust average interval). This took three attempts, each corrected by real CI data:
+  1. (n − 1) / total span. Healthy 8-sample runs at 40 Hz scored 77–89 % of the target on
+     macOS and on Windows with Python 3.10, because one late *last* sample stretched the
+     span.
+  2. 1 / median interval between consecutive requests. Still failed on macOS. Per-request
+     logs printed by CI showed why: requests took ~1 ms, but the runner woke up from
+     `sleep` randomly up to 77 ms late, and the absolute schedule then caught up, so the
+     gaps alternated long/short. The median of a handful of such gaps lands on either: it
+     said 84 % for a run whose last sample was almost on time.
+  3. Theil–Sen uses every pair of samples, so isolated late samples barely move it. On
+     the same CI data it gives 93–98 %. A device that is really too slow stretches every
+     pair and still shows. A regression test replays the logged macOS send times.
+
+  Lateness itself is reported separately as jitter, so it is not hidden.
 - **Hybrid waiting.** `time.sleep` alone is not precise: before Python 3.11, Windows rounds
   every sleep up to its ~15.6 ms timer tick (measured on this machine: `sleep(5 ms)` took
   14 ms on average, 24 ms at worst). The sampler sleeps until shortly before the deadline
@@ -235,11 +244,13 @@ how cross-platform compatibility is verified. The one test that measures real ti
 loose bounds, because shared CI machines can oversleep by tens of milliseconds; the exact
 scheduling logic is tested with a fake clock.
 
-CI found two real timing bugs (see Sampling above) and one host limit. On the macOS runners
-a request to the in-process emulator takes about 29 ms, so 40 Hz (25 ms per slot) cannot be
-sustained there, and the frequency check correctly fails such a run. The integration tests
-therefore sample at 20 Hz: they test behaviour, and their result should not depend on how
-fast the CI machine is.
+CI found real timing bugs (see Sampling above). It also showed that macOS runners wake up
+from `sleep` randomly up to ~80 ms late. That is reported as jitter, as it should be. The
+integration tests check behaviour, so they sample at 20 Hz and do not apply the frequency
+limit; their result should not depend on how busy the CI machine is. The frequency check
+itself is unit-tested with exact timings, including the real ones logged on macOS.
+The CI workflow prints every request's send time and latency from the run logs, which is
+how the cause was found instead of guessed.
 
 The entry points check the Python version first (`src/__init__.py`). Python 3.8 or 3.9
 gets a one-line explanation and the command to fix it, not a `TypeError` from deep inside
