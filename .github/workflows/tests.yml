@@ -40,6 +40,22 @@ jobs:
       - name: Smoke plan through the CLI
         run: python run_tests.py run --plan smoke
 
+      # Diagnostics: one device alone, to tell per-request slowness from contention
+      # between parallel samplers. Does not fail the build.
+      - name: Single device at 10 Hz (diagnostic)
+        if: always()
+        continue-on-error: true
+        run: python run_tests.py run -a circutor -n 10 -f 10
+
+      - name: Per-request timing from the run logs
+        if: always()
+        shell: bash
+        run: |
+          for f in results/logs/*.log; do
+            echo "== $f"
+            grep -E "#[0-9]+ t=|VERDICT|check frequency" "$f" || true
+          done
+
       - name: Keep the reports
         if: always()
         uses: actions/upload-artifact@v6
