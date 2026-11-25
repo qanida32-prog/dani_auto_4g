@@ -137,5 +137,7 @@ def test_unexpected_exception_is_not_swallowed():
 def test_real_clock_timing_is_close_to_target():
     cfg = SamplingConfig.from_values(10, sampling_frequency_hz=50)  # 0.2 s
     run = Sampler(cfg).run(lambda: 1.0)
-    assert run.elapsed_s == pytest.approx(0.2, abs=0.05)
-    assert max(s.jitter_s for s in run.samples) < 0.03
+    # Loose bounds on purpose: shared CI runners (macOS especially) can oversleep by tens
+    # of ms. The exact scheduling logic is covered by the fake-clock tests above.
+    assert run.elapsed_s == pytest.approx(0.2, abs=0.1)
+    assert max(s.jitter_s for s in run.samples) < 0.08

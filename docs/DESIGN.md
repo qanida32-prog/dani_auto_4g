@@ -70,8 +70,16 @@ dependencies minimal, and the data sets are small.
   would understate the interval by about 6 %.
 - **Outliers**: Tukey fences (Q1 − 1.5·IQR, Q3 + 1.5·IQR). They are robust, unlike a z-score
   that the outlier itself inflates.
-- **Drift**: least-squares slope of value against sample index, reported as the total change
-  over the run in % of the mean. First-half vs second-half mean gives a simpler check.
+- **Drift**: Theil–Sen slope of value against sample index (the median of the slopes
+  between all pairs of points), reported as the total change over the run in % of the
+  median. First-half vs second-half mean gives a simpler check.
+  The first version used a least-squares slope relative to the mean. Running the `soak`
+  plan showed why that is wrong here: one Greenlee spike (37 A against a 0.12 A median)
+  dragged the slope and produced "210 % drift" from an emulator that has no drift at all,
+  so the plan failed a healthy device. Theil–Sen tolerates up to ~29 % arbitrary points;
+  on the same kind of run it reports single-digit drift. A regression test keeps it that
+  way. Runs over 600 samples are thinned to 600 evenly spaced points to bound the O(n²)
+  cost.
 - **Statistics ignore failed samples.** Failures are reported separately as a rate.
 
 ## 4. Result management
@@ -91,6 +99,10 @@ dependencies minimal, and the data sets are small.
 - **Retrieval and comparison**: `list` (filtered by device), `show`, and `compare` of any set
   of stored runs. Examples: the same device on two days, or before and after a firmware
   change.
+- **A log file per run** (`results/logs/<run_id>.log`): configuration, every request with
+  its time, latency and value or error, the statistics and each acceptance check. The JSON
+  is for tools; the log is for a person tracing what happened in one run. It uses the
+  `TestLogger` class from the provided skeleton, which was not used anywhere before.
 
 ## 5. Accuracy assessment
 
@@ -117,11 +129,11 @@ ranking table shows every component and a reader can disagree with the weighting
 **What the sample results show.** CIRCUTOR ranks first. It averages 10 voltage readings per
 measurement, and averaging reduces variance. Greenlee ranks last: I = V/R with R down to
 0.1 Ω makes the distribution heavy-tailed. The median is about 0.1 A, but a small R
-occasionally gives 10 A or more (the maximum in `docs/sample_results/standard/` is 9.5 A,
-with a CV of 309 %). Its mean converges slowly, so its CV is very high and its relative
-error swings widely from run to run. This is a real
-property of the measurement method, not a framework artefact. It is also why the median is
-reported next to the mean.
+occasionally gives a reading tens or hundreds of times larger (up to 100 A in theory). In
+our runs Greenlee's CV ranged from about 150 % to over 450 %, while ENTES and CIRCUTOR
+stayed around 45–60 %. Its mean converges slowly, so its relative error swings widely from
+run to run. This is a real property of the measurement method, not a framework artefact.
+It is also why the median is reported next to the mean, and why drift uses a robust slope.
 
 ## 6. Error simulation (bonus)
 
@@ -185,6 +197,11 @@ browser and can be attached to a ticket.
 - Histogram (Sturges' rule for the bin count) and box plot.
 - Suite: CV bar chart, and box plots **normalised to each device's mean**, so devices on
   different scales can be compared on one axis.
+- `analysis.statistical_metrics` selects the statistics shown in the console table and the
+  report, and `analysis.visualization.plot_types` selects the charts. Every statistic is
+  still computed and stored in the JSON; the config only selects what is displayed. These
+  keys were already in the provided config but nothing read them. A setting that silently
+  does nothing is worse than no setting, so they are now honoured and validated.
 
 ## 10. Testing strategy
 
@@ -194,18 +211,28 @@ browser and can be attached to a ticket.
 | `test_sampling.py` | config derivation and validation, exact schedule, no drift under latency, overrun recovery, failure recording (fake clock), plus one real-clock check |
 | `test_analysis.py` | statistics against hand-computed values, outliers, drift, accuracy, ranking, chart axis ticks |
 | `test_results_and_errors.py` | archive round trip, unique ids, filtering, strict JSON, fault-injection rates and reproducibility |
-| `test_acceptance_and_plans.py` | every acceptance limit, layer merging, invalid criteria, every shipped plan loads, plan overrides |
-| `test_framework.py` | end to end against real emulators on free ports: every device, suites, a device that is down, error simulation, verdicts, every CLI command and its exit codes |
+| `test_acceptance_and_plans.py` | every acceptance limit, layer merging, invalid criteria, every shipped plan loads, plan overrides, report options |
+| `test_framework.py` | end to end against real emulators on free ports: every device, suites, a device that is down, error simulation, verdicts, per-run log files, every CLI command and its exit codes |
 
 Tests bind emulators to OS-assigned free ports and write results to `tmp_path`, so they can
-run while `main.py` is running and never touch `results/`. The 99 tests run in about 8 s.
+run while `main.py` is running and never touch `results/`. The 106 tests run in about 9 s.
+
+**Continuous integration** (`.github/workflows/tests.yml`) runs on every push, on Ubuntu,
+macOS and Windows with Python 3.10 and 3.13: lint, the full test suite, `main.py`, and the
+`smoke` plan through the CLI. The reports are kept as build artifacts for 7 days. This is
+how cross-platform compatibility is verified. The one test that measures real time has
+loose bounds, because shared CI machines can oversleep by tens of milliseconds; the exact
+scheduling logic is tested with a fake clock.
+
+The entry points check the Python version first (`src/__init__.py`). Python 3.8 or 3.9
+gets a one-line explanation and the command to fix it, not a `TypeError` from deep inside
+the code.
 
 ## Limitations and possible extensions
 
 - The reliability score weights are fixed in code (`FAILURE_WEIGHT`). They could move into
   config, like the acceptance limits.
-- Tested on Windows only. The code avoids platform-specific APIs and handles the one known
-  difference (`SO_REUSEADDR`), but it has not been run on Linux or macOS.
+- Developed and run by hand on Windows. Linux and macOS are covered by CI only.
 - `run_tests.py` starts the emulators in-process. Against real devices use `--no-emulators`.
 - Requests are sequential per device, so the maximum frequency is about 1 / latency (around
   50–60 Hz here). That is a property of the request/response protocol, and the timing

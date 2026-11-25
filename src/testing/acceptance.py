@@ -46,7 +46,7 @@ class AcceptanceCriteria:
     max_abs_relative_error_percent: float | None = None  # needs reference_current_a
     max_outliers: int | None = None
     min_frequency_ratio: float | None = None  # achieved / target sampling frequency
-    max_drift_percent: float | None = None  # |trend over the run| as % of the mean
+    max_drift_percent: float | None = None  # |trend over the run| as % of the median
 
     @classmethod
     def from_layers(cls, *layers: dict[str, Any] | None) -> AcceptanceCriteria:
@@ -102,7 +102,7 @@ class AcceptanceCriteria:
         at_most(
             "|drift| %",
             self.max_drift_percent,
-            abs(cons["drift_percent_of_mean"]) if stats else None,
+            abs(cons["drift_percent"]) if stats else None,
         )
         # Frequency needs at least two samples; with fewer it is undefined, not a failure.
         target, achieved = timing["target_frequency_hz"], timing["achieved_frequency_hz"]

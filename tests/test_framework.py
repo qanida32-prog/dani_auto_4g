@@ -199,3 +199,16 @@ def test_cli_plan_and_plans_command(lab, capsys):
     assert "FAILED CV %" in out and "VERDICT: FAIL" in out
 
     assert run_tests.main([*base, "run", "--no-emulators", "--plan", "nope"]) == 2
+
+
+def test_each_run_writes_its_own_log_file(lab):
+    config, _ = lab
+    config["error_simulation"] = {"enabled": True, "protocol_error_rate": 0.5, "seed": 2}
+    fw = make_framework(config)
+    result = fw.run_test("circutor", SamplingConfig.from_values(10, sampling_frequency_hz=50))
+
+    log = (fw.store.logs_dir / f"{result.run_id}.log").read_text(encoding="utf-8")
+    assert f"run {result.run_id}" in log
+    assert "FAILED: AmmeterProtocolError" in log
+    assert log.count(" #") == 10  # one line per sample
+    assert "VERDICT FAIL" in log

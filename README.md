@@ -7,10 +7,13 @@ produces HTML reports and a cross-device comparison.
 - Fixes made to the provided code: [docs/FIXES.md](docs/FIXES.md)
 - Design decisions: [docs/DESIGN.md](docs/DESIGN.md)
 - Sample results: [docs/sample_results/](docs/sample_results/)
+- CI: every push runs lint, the tests, `main.py` and the `smoke` plan on Ubuntu, macOS and
+  Windows ([.github/workflows/tests.yml](.github/workflows/tests.yml))
 
 ## Quick start
 
-Requires Python 3.10 or newer.
+Requires Python 3.10 or newer. On an older Python, the scripts stop with a message that
+says so.
 
 ```sh
 python -m venv .venv
@@ -119,6 +122,7 @@ Results are written under `results/` (git-ignored):
 results/runs/<run_id>.json        samples, statistics and metadata for one ammeter
 results/suites/<suite_id>.json    the runs taken together and their comparison
 results/reports/<id>.html         report with charts; open it in any browser
+results/logs/<run_id>.log         every request of one run: time, latency, value or error
 ```
 
 Run ids look like `20261124-123051-entes-2a58be` (timestamp, device, random suffix): they are
@@ -151,7 +155,7 @@ use `src.testing.emulators.start_emulators(fw.config)`.
 |------|--------|
 | Statistics | count, mean, median, sample standard deviation, min, max, range, coefficient of variation, standard error, 95 % confidence interval of the mean |
 | Timing | achieved vs target frequency, jitter (mean and max), request latency (mean and max) |
-| Consistency | outliers (Tukey 1.5 IQR), linear drift over the run, first-half vs second-half mean, failure rate |
+| Consistency | outliers (Tukey 1.5 IQR), drift over the run (robust Theil–Sen slope), first-half vs second-half mean, failure rate |
 | Accuracy | bias and relative error against `reference_current_a`, and whether the reference is inside the 95 % CI |
 | Comparison | ranking by a reliability score (precision + accuracy + failures), most reliable device |
 | Charts | time series (outliers and failures marked), histogram, box plot; for a suite also a CV bar chart and a normalised box plot |
@@ -173,7 +177,8 @@ Everything is in `config/config.yaml`:
 | `testing.sampling` | `measurements_count`, `total_duration_seconds`, `sampling_frequency_hz` (any two; `null` = derive) |
 | `testing.connection` | `host` (use `127.0.0.1`, see FIXES.md #21), `timeout_seconds` |
 | `ammeters.<name>` | `port`, `command`, optional `reference_current_a` and `acceptance_criteria` |
-| `analysis.visualization` | `enabled`: write HTML reports |
+| `analysis` | `statistical_metrics`: the statistics shown in tables and reports (`count`, `mean`, `median`, `std_dev`, `min`, `max`, `range`, `cv`, `sem`, `ci95`) |
+| `analysis.visualization` | `enabled`: write HTML reports; `plot_types`: `time_series`, `histogram`, `box_plot` |
 | `result_management` | `results_dir` |
 | `error_simulation` | `enabled`, `connection_error_rate`, `protocol_error_rate`, `spike_rate`, `spike_factor`, `seed` |
 | `acceptance_criteria` | the pass/fail limits above |
@@ -201,7 +206,8 @@ src/testing/
   error_simulation.py      fault injection
   emulators.py             start / stop the emulators
 src/utils/                 config loader, logger, helpers
-tests/                     pytest suite (99 tests)
+tests/                     pytest suite (106 tests)
+.github/workflows/         CI: Ubuntu, macOS, Windows
 docs/                      assignment, fixes log, design notes, sample results
 main.py                    one measurement from each emulator
 run_tests.py               command-line interface

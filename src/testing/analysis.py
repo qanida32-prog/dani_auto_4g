@@ -100,14 +100,40 @@ class TimingStatistics:
         )
 
 
+THEIL_SEN_MAX_POINTS = 600  # ~180k pairs: well under a second
+
+
+def theil_sen_slope(xs: list[float], ys: list[float]) -> float:
+    """Median of the slopes between all pairs of points.
+
+    Unlike least squares, one extreme reading cannot drag the result: up to ~29 % of the
+    points can be arbitrary before the estimate breaks down. Heavy-tailed devices (Greenlee:
+    I = V / R with R down to 0.1 ohm) would otherwise show large "drift" from a single spike.
+    Long runs are thinned to evenly spaced points to keep the O(n^2) cost bounded.
+    """
+    n = len(xs)
+    if n > THEIL_SEN_MAX_POINTS:
+        keep = [
+            round(i * (n - 1) / (THEIL_SEN_MAX_POINTS - 1)) for i in range(THEIL_SEN_MAX_POINTS)
+        ]
+        xs, ys = [xs[i] for i in keep], [ys[i] for i in keep]
+    slopes = [
+        (ys[j] - ys[i]) / (xs[j] - xs[i])
+        for i in range(len(xs))
+        for j in range(i + 1, len(xs))
+        if xs[j] != xs[i]
+    ]
+    return statistics.median(slopes) if slopes else 0.0
+
+
 @dataclass(frozen=True)
 class Consistency:
     """Is the device stable over the run? (bonus: performance consistency evaluation)"""
 
     outlier_count: int  # outside Tukey fences (Q1 - 1.5 IQR, Q3 + 1.5 IQR)
     outlier_indices: list[int]
-    drift_per_sample: float  # least-squares slope of value vs sample index, A/sample
-    drift_percent_of_mean: float  # slope * (n - 1) as a % of the mean: total trend over the run
+    drift_per_sample: float  # Theil-Sen slope of value vs sample index, A/sample
+    drift_percent: float  # slope * (n - 1) as a % of the median: total trend over the run
     first_half_mean: float
     second_half_mean: float
     failure_rate_percent: float
@@ -126,18 +152,16 @@ class Consistency:
             low, high = q1 - OUTLIER_IQR_FACTOR * iqr, q3 + OUTLIER_IQR_FACTOR * iqr
             outliers = [s.index for s in ok if not low <= s.value <= high]
 
-        slope = 0.0
-        if len(values) >= 2:
-            slope = statistics.linear_regression([s.index for s in ok], values).slope
-        mean = statistics.fmean(values) if values else math.nan
-        drift_pct = 100.0 * slope * (len(values) - 1) / abs(mean) if values and mean else 0.0
+        slope = theil_sen_slope([s.index for s in ok], values) if len(values) >= 2 else 0.0
+        median = statistics.median(values) if values else math.nan
+        drift_pct = 100.0 * slope * (len(values) - 1) / abs(median) if values and median else 0.0
 
         half = len(values) // 2
         return cls(
             outlier_count=len(outliers),
             outlier_indices=outliers,
             drift_per_sample=slope,
-            drift_percent_of_mean=drift_pct,
+            drift_percent=drift_pct,
             first_half_mean=statistics.fmean(values[:half]) if half else math.nan,
             second_half_mean=statistics.fmean(values[half:]) if values[half:] else math.nan,
             failure_rate_percent=failure_rate,

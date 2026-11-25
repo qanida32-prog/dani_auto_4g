@@ -1,19 +1,19 @@
 ﻿
-ammeter   n    mean (A)  median (A)  std (A)  min (A)     max (A)    fail %  result
---------  ---  --------  ----------  -------  ----------  ---------  ------  ------
-greenlee  100  0.320535  0.104953    0.9917   0.0148295   9.50018    0       PASS  
-entes     100  63.9857   54.9168     33.58    8.65174     163.63     0       PASS  
-circutor  100  0.029099  0.0285831   0.01375  0.00483757  0.0590859  0       PASS  
+ammeter   n    mean (A)   median (A)  std dev (A)  min (A)    max (A)    CV %   fail %  result
+--------  ---  ---------  ----------  -----------  ---------  ---------  -----  ------  ------
+greenlee  100  0.21739    0.112616    0.3255       0.0145649  2.401      149.7  0       PASS  
+entes     100  72.995     69.5369     40.65        8.43962    162.472    55.69  0       PASS  
+circutor  100  0.0303611  0.0310263   0.01376      0.0054488  0.0614277  45.31  0       PASS  
 
 rank  ammeter   run_id                           CV %   rel. err %  fail %  score
 ----  --------  -------------------------------  -----  ----------  ------  -----
-1     circutor  20261125-135531-circutor-d610e9  47.24  -3.805      0       51.04
-2     entes     20261125-135531-entes-840d46     52.49  -6.93       0       59.42
-3     greenlee  20261125-135531-greenlee-13b69e  309.4  -15.72      0       325.1
+1     circutor  20261125-142108-circutor-306d02  45.31  0.3674      0       45.68
+2     entes     20261125-142108-entes-cad6d1     55.69  6.175       0       61.86
+3     greenlee  20261125-142108-greenlee-bf6edd  149.7  -42.84      0       192.6
 
 Most reliable: circutor   (score = CV % + |relative error %| (if a reference is configured) + 10 x failure rate %; lower is better)
 
-Report:  C:\Dani_Pentera_QA\results\reports\20261125-135531-suite-f57a2f.html
+Report:  C:\Dani_Pentera_QA\results\reports\20261125-142108-suite-1d6fc9.html
 Results: C:\Dani_Pentera_QA\results\runs
 
 VERDICT: PASS

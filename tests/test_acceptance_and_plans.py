@@ -134,3 +134,58 @@ def test_plan_overrides_sampling_ammeters_faults_and_criteria(config, tmp_path):
     assert criteria.max_failure_rate_percent == 50  # plan
     assert criteria.max_cv_percent == 99  # device
     assert criteria.min_frequency_ratio == config["acceptance_criteria"]["min_frequency_ratio"]
+
+
+# ---------------------------------------------------------------------- report options
+def test_report_options_follow_config():
+    from src.testing.report import ReportOptions
+
+    opts = ReportOptions.from_config(
+        {"statistical_metrics": ["mean", "cv"], "visualization": {"plot_types": ["histogram"]}}
+    )
+    assert opts.metrics == ("mean", "cv")
+    assert opts.plots == ("histogram",)
+    assert opts.enabled
+
+
+@pytest.mark.parametrize(
+    "section",
+    [
+        {"statistical_metrics": ["mean", "average"]},
+        {"visualization": {"plot_types": ["pie_chart"]}},
+    ],
+)
+def test_unknown_metric_or_plot_rejected(section):
+    from src.testing.report import ReportOptions
+
+    with pytest.raises(ConfigError):
+        ReportOptions.from_config(section)
+
+
+def test_report_shows_only_configured_metrics_and_plots():
+    from src.testing.report import ReportOptions, render_run_report
+    from src.testing.results import TestResult
+
+    analysis = analysis_of([1.0, 1.2, 0.8, 1.1])
+    run = TestResult(
+        run_id="r1",
+        ammeter="entes",
+        created_at="2026-11-25T10:00:00+00:00",
+        metadata={
+            "host": "127.0.0.1",
+            "port": 5001,
+            "sampling": {
+                "measurements_count": 4,
+                "sampling_frequency_hz": 10,
+                "total_duration_seconds": 0.4,
+            },
+        },
+        samples=[
+            {"index": i, "actual_offset_s": i / 10, "value": v, "error": None}
+            for i, v in enumerate([1.0, 1.2, 0.8, 1.1])
+        ],
+        analysis=analysis,
+    ).to_dict()
+    page = render_run_report(run, ReportOptions(metrics=("median",), plots=("histogram",)))
+    assert "median (A)" in page and "std dev (A)" not in page
+    assert "Distribution" in page and "Measurements over time" not in page

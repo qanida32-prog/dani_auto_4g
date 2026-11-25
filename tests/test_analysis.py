@@ -66,8 +66,24 @@ def test_linear_trend_is_reported_as_drift():
     values = [10.0 + 0.5 * i for i in range(11)]  # 10 -> 15
     c = analyze(make_run(values)).consistency
     assert c.drift_per_sample == pytest.approx(0.5)
-    assert c.drift_percent_of_mean == pytest.approx(100 * 5 / 12.5)
+    assert c.drift_percent == pytest.approx(100 * 5 / 12.5)  # trend / median
     assert c.second_half_mean > c.first_half_mean
+
+
+def test_single_spike_is_not_reported_as_drift():
+    """Regression: a least-squares slope turned one Greenlee spike into 210 % 'drift'."""
+    values = [0.1 + 0.01 * ((i * 7) % 5) for i in range(300)]
+    values[290] = 40.0  # one heavy-tail reading near the end
+    c = analyze(make_run(values)).consistency
+    assert abs(c.drift_percent) < 5
+    assert 290 in c.outlier_indices
+
+
+def test_theil_sen_thins_long_runs_and_keeps_the_slope():
+    from src.testing.analysis import THEIL_SEN_MAX_POINTS, theil_sen_slope
+
+    n = THEIL_SEN_MAX_POINTS * 3
+    assert theil_sen_slope(list(range(n)), [2.0 * i + 1 for i in range(n)]) == pytest.approx(2.0)
 
 
 def test_accuracy_against_reference():

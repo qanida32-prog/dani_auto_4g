@@ -8,8 +8,11 @@ from __future__ import annotations
 
 import html
 import math
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
+from dataclasses import dataclass
 from typing import Any
+
+from src.utils.config import ConfigError
 
 # Chart geometry
 W, H = 560, 240
@@ -296,7 +299,52 @@ def _verdict_table(verdict: dict[str, Any]) -> str:
     return _table(["Acceptance check", "actual", "limit", "result"], rows)
 
 
-def _run_section(run: dict[str, Any], heading_level: int = 2) -> str:
+# ---------------------------------------------------------------------- options
+# Statistics that can be listed in config under analysis.statistical_metrics.
+METRICS: dict[str, tuple[str, Callable[[dict[str, Any]], str]]] = {
+    "count": ("samples", lambda s: fmt(s["count"])),
+    "mean": ("mean (A)", lambda s: fmt(s["mean"])),
+    "median": ("median (A)", lambda s: fmt(s["median"])),
+    "std_dev": ("std dev (A)", lambda s: fmt(s["std_dev"], 4)),
+    "min": ("min (A)", lambda s: fmt(s["min"])),
+    "max": ("max (A)", lambda s: fmt(s["max"])),
+    "range": ("range (A)", lambda s: fmt(s["range"])),
+    "cv": ("CV %", lambda s: fmt(s["cv_percent"], 4)),
+    "sem": ("std error (A)", lambda s: fmt(s["sem"], 4)),
+    "ci95": ("95% CI of mean (A)", lambda s: f"{fmt(s['ci95_low'], 4)} - {fmt(s['ci95_high'], 4)}"),
+}
+DEFAULT_METRICS = ("mean", "median", "std_dev", "min", "max", "cv", "ci95")
+PLOT_TYPES = ("time_series", "histogram", "box_plot")
+
+
+@dataclass(frozen=True)
+class ReportOptions:
+    """What the console tables and HTML reports show (``analysis`` section of the config)."""
+
+    metrics: tuple[str, ...] = DEFAULT_METRICS
+    plots: tuple[str, ...] = PLOT_TYPES
+    enabled: bool = True  # write HTML reports at all
+
+    @classmethod
+    def from_config(cls, analysis: dict[str, Any] | None) -> ReportOptions:
+        analysis = analysis or {}
+        visualization = analysis.get("visualization") or {}
+        metrics = tuple(analysis.get("statistical_metrics") or DEFAULT_METRICS)
+        plots = tuple(visualization.get("plot_types") or PLOT_TYPES)
+        unknown = [m for m in metrics if m not in METRICS]
+        if unknown:
+            raise ConfigError(
+                f"Unknown statistical_metrics {unknown}; available: {', '.join(METRICS)}"
+            )
+        unknown = [p for p in plots if p not in PLOT_TYPES]
+        if unknown:
+            raise ConfigError(f"Unknown plot_types {unknown}; available: {', '.join(PLOT_TYPES)}")
+        return cls(metrics, plots, bool(visualization.get("enabled", True)))
+
+
+def _run_section(
+    run: dict[str, Any], heading_level: int = 2, options: ReportOptions = ReportOptions()
+) -> str:
     a = run["analysis"]
     stats, timing, cons, acc = a["statistics"], a["timing"], a["consistency"], a["accuracy"]
     meta = run["metadata"]
@@ -313,36 +361,25 @@ def _run_section(run: dict[str, Any], heading_level: int = 2) -> str:
         f"<code>{html.escape(meta['host'])}:{meta['port']}</code>{plan}</p>",
     ]
     if stats:
-        parts.append(
-            _cards(
-                [
-                    ("mean (A)", fmt(stats["mean"])),
-                    ("median (A)", fmt(stats["median"])),
-                    ("std dev (A)", fmt(stats["std_dev"])),
-                    ("min (A)", fmt(stats["min"])),
-                    ("max (A)", fmt(stats["max"])),
-                    ("CV", fmt(stats["cv_percent"], 3) + " %"),
-                    (
-                        "95% CI of mean",
-                        f"{fmt(stats['ci95_low'], 4)} - {fmt(stats['ci95_high'], 4)}",
-                    ),
-                    ("failures", fmt(cons["failure_rate_percent"], 3) + " %"),
-                ]
-            )
-        )
+        cards = [(METRICS[m][0], METRICS[m][1](stats)) for m in options.metrics]
+        cards.append(("failures", fmt(cons["failure_rate_percent"], 3) + " %"))
+        parts.append(_cards(cards))
     else:
         parts.append('<p class="bad">Every measurement failed.</p>')
 
-    indexed = [s for s in run["samples"]]
-    parts.append(
-        '<div class="charts">'
-        + time_series_chart(indexed, "Measurements over time", cons["outlier_indices"])
-        + histogram_chart([s["value"] for s in indexed if s["value"] is not None], "Distribution")
-        + box_plot_chart(
-            {run["ammeter"]: [s["value"] for s in indexed if s["value"] is not None]}, "Box plot"
+    samples = run["samples"]
+    values = [s["value"] for s in samples if s["value"] is not None]
+    charts = {
+        "time_series": lambda: time_series_chart(
+            samples, "Measurements over time", cons["outlier_indices"]
+        ),
+        "histogram": lambda: histogram_chart(values, "Distribution"),
+        "box_plot": lambda: box_plot_chart({run["ammeter"]: values}, "Box plot"),
+    }
+    if options.plots:
+        parts.append(
+            '<div class="charts">' + "".join(charts[p]() for p in options.plots) + "</div>"
         )
-        + "</div>"
-    )
     rows = [
         [
             "Achieved / target frequency (Hz)",
@@ -357,7 +394,7 @@ def _run_section(run: dict[str, Any], heading_level: int = 2) -> str:
             f"{fmt(timing['mean_latency_ms'], 3)} / {fmt(timing['max_latency_ms'], 3)}",
         ],
         ["Outliers (Tukey 1.5 IQR)", fmt(cons["outlier_count"])],
-        ["Drift over the run (% of mean)", fmt(cons["drift_percent_of_mean"], 3)],
+        ["Drift over the run (% of median, Theil-Sen)", fmt(cons["drift_percent"], 3)],
         [
             "Mean, first / second half (A)",
             f"{fmt(cons['first_half_mean'])} / {fmt(cons['second_half_mean'])}",
@@ -390,14 +427,16 @@ def _run_section(run: dict[str, Any], heading_level: int = 2) -> str:
     return "".join(parts)
 
 
-def render_run_report(run: dict[str, Any]) -> str:
+def render_run_report(run: dict[str, Any], options: ReportOptions = ReportOptions()) -> str:
     return _page(
         f"Ammeter test {run['run_id']}",
-        f"<h1>Ammeter test report</h1>{_run_section(run)}",
+        f"<h1>Ammeter test report</h1>{_run_section(run, options=options)}",
     )
 
 
-def render_suite_report(suite: dict[str, Any], runs: list[dict[str, Any]]) -> str:
+def render_suite_report(
+    suite: dict[str, Any], runs: list[dict[str, Any]], options: ReportOptions = ReportOptions()
+) -> str:
     comp = suite["comparison"]
     passed_by_run = {r["run_id"]: (r.get("verdict") or {}).get("passed") for r in runs}
     rows = [
@@ -436,8 +475,12 @@ def render_suite_report(suite: dict[str, Any], runs: list[dict[str, Any]]) -> st
         + f'<p class="muted">{html.escape(comp["method"])}</p>'
         + '<div class="charts">'
         + bar_chart(cvs, "Precision: coefficient of variation (lower is better)", "CV %")
-        + box_plot_chart(values, "Spread relative to each device's mean", normalize=True)
+        + (
+            box_plot_chart(values, "Spread relative to each device's mean", normalize=True)
+            if "box_plot" in options.plots
+            else ""
+        )
         + "</div>"
-        + "".join(_run_section(r, heading_level=2) for r in runs)
+        + "".join(_run_section(r, heading_level=2, options=options) for r in runs)
     )
     return _page(f"Ammeter comparison {suite['suite_id']}", body)

@@ -22,7 +22,7 @@ from src.testing.acceptance import AcceptanceCriteria
 from src.testing.analysis import Comparison, analyze, compare
 from src.testing.error_simulation import ErrorSimulationConfig, with_fault_injection
 from src.testing.plans import TestPlan
-from src.testing.report import render_run_report, render_suite_report
+from src.testing.report import ReportOptions, render_run_report, render_suite_report
 from src.testing.results import (
     ResultStore,
     SuiteResult,
@@ -33,6 +33,7 @@ from src.testing.results import (
 )
 from src.testing.sampling import Sampler, SamplingConfig
 from src.utils.config import ConfigError, load_config
+from src.utils.logger import TestLogger
 
 logger = logging.getLogger("framework")
 
@@ -64,8 +65,8 @@ class AmmeterTestFramework:
         )
         results_dir = self.config.get("result_management", {}).get("results_dir", "results")
         self.store = store or ResultStore(results_dir)
-        visualization = self.config.get("analysis", {}).get("visualization", {})
-        self.write_reports = bool(visualization.get("enabled", True))
+        self.report_options = ReportOptions.from_config(self.config.get("analysis"))
+        self.write_reports = self.report_options.enabled
         self.plan: TestPlan | None = None
         self.default_ammeters: list[str] = list(self.ammeters)
         for name in self.ammeters:
@@ -116,10 +117,39 @@ class AmmeterTestFramework:
             run_id,
         )
 
-        run = Sampler(sampling).run(self._measure_fn(ammeter_type, device))
-        analysis = analyze(run, device.get("reference_current_a"))
         criteria = self.criteria_for(ammeter_type)
-        verdict = criteria.evaluate(analysis.to_dict())
+        with TestLogger(run_id, self.store.logs_dir, add_timestamp=False) as run_log:
+            run_log.info(
+                f"run {run_id}: {ammeter_type} at {self.connection['host']}:{device['port']} "
+                f"command={device['command']!r} plan={self.plan.name if self.plan else '-'}"
+            )
+            run_log.info(f"sampling {sampling.to_dict()}")
+            run_log.info(f"acceptance {criteria.to_dict()}")
+            if self.error_simulation.enabled:
+                run_log.warning(f"error simulation ON {self.error_simulation.to_dict()}")
+
+            run = Sampler(sampling).run(self._measure_fn(ammeter_type, device))
+            for s in run.samples:
+                if s.ok:
+                    run_log.debug(
+                        f"#{s.index} t={s.actual_offset_s:.4f}s latency={s.latency_s * 1000:.1f}ms "
+                        f"value={s.value!r} A"
+                    )
+                else:
+                    run_log.error(f"#{s.index} t={s.actual_offset_s:.4f}s FAILED: {s.error}")
+
+            analysis = analyze(run, device.get("reference_current_a"))
+            verdict = criteria.evaluate(analysis.to_dict())
+            stats = analysis.statistics
+            if stats:
+                run_log.info(
+                    f"statistics n={stats.count} mean={stats.mean:.6g} median={stats.median:.6g} "
+                    f"std={stats.std_dev:.4g} min={stats.min:.6g} max={stats.max:.6g}"
+                )
+            for check in verdict.checks:
+                level = run_log.info if check.passed else run_log.error
+                level(f"check {check.name}: actual={check.actual} limit={check.limit}")
+            run_log.info(f"VERDICT {'PASS' if verdict.passed else 'FAIL'}")
         result = TestResult(
             run_id=run_id,
             ammeter=ammeter_type,
@@ -144,7 +174,7 @@ class AmmeterTestFramework:
         self.store.save_run(result)
         if self.write_reports:
             self.store.report_path(run_id).write_text(
-                render_run_report(result.to_dict()), encoding="utf-8"
+                render_run_report(result.to_dict(), self.report_options), encoding="utf-8"
             )
         self._log_summary(result)
         return result
@@ -179,7 +209,9 @@ class AmmeterTestFramework:
         self.store.save_suite(suite)
         if self.write_reports:
             self.store.report_path(suite_id).write_text(
-                render_suite_report(suite.to_dict(), [r.to_dict() for r in results]),
+                render_suite_report(
+                    suite.to_dict(), [r.to_dict() for r in results], self.report_options
+                ),
                 encoding="utf-8",
             )
         logger.info("suite %s: most reliable = %s", suite_id, comparison.most_reliable)

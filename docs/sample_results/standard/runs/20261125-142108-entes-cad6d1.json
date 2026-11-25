@@ -1,0 +1,905 @@
+{
+  "run_id": "20261125-142108-entes-cad6d1",
+  "ammeter": "entes",
+  "created_at": "2026-11-25T12:21:13+00:00",
+  "metadata": {
+    "host": "127.0.0.1",
+    "port": 5001,
+    "command": "MEASURE_ENTES -get_data",
+    "timeout_seconds": 2.0,
+    "sampling": {
+      "measurements_count": 100,
+      "total_duration_seconds": 5.0,
+      "sampling_frequency_hz": 20.0
+    },
+    "error_simulation": {
+      "enabled": false,
+      "connection_error_rate": 0.05,
+      "protocol_error_rate": 0.03,
+      "spike_rate": 0.05,
+      "spike_factor": 10,
+      "seed": null
+    },
+    "suite_id": "20261125-142108-suite-1d6fc9",
+    "plan": "standard",
+    "acceptance_criteria": {
+      "max_failure_rate_percent": 0,
+      "max_cv_percent": null,
+      "max_abs_relative_error_percent": null,
+      "max_outliers": null,
+      "min_frequency_ratio": 0.9,
+      "max_drift_percent": null
+    },
+    "started_at_epoch": 1795609268.770144,
+    "environment": {
+      "python": "3.11.9",
+      "platform": "Windows-10-10.0.26300-SP0",
+      "hostname": "Daniel-QA-RND"
+    }
+  },
+  "samples": [
+    {
+      "index": 0,
+      "scheduled_offset_s": 0.0,
+      "actual_offset_s": 6.50000583846122e-06,
+      "latency_s": 0.014151299998047762,
+      "value": 117.55637372351636,
+      "error": null
+    },
+    {
+      "index": 1,
+      "scheduled_offset_s": 0.05,
+      "actual_offset_s": 0.05039240000769496,
+      "latency_s": 0.0012065000046277419,
+      "value": 69.4932027900497,
+      "error": null
+    },
+    {
+      "index": 2,
+      "scheduled_offset_s": 0.1,
+      "actual_offset_s": 0.10048050001205411,
+      "latency_s": 0.002051699993899092,
+      "value": 123.49524128601465,
+      "error": null
+    },
+    {
+      "index": 3,
+      "scheduled_offset_s": 0.15000000000000002,
+      "actual_offset_s": 0.1506750000116881,
+      "latency_s": 0.001988899995922111,
+      "value": 72.88280199340845,
+      "error": null
+    },
+    {
+      "index": 4,
+      "scheduled_offset_s": 0.2,
+      "actual_offset_s": 0.20114689999900293,
+      "latency_s": 0.0019979000062448904,
+      "value": 8.439617063452,
+      "error": null
+    },
+    {
+      "index": 5,
+      "scheduled_offset_s": 0.25,
+      "actual_offset_s": 0.2504922000080114,
+      "latency_s": 0.0017973999929381534,
+      "value": 16.67060102693177,
+      "error": null
+    },
+    {
+      "index": 6,
+      "scheduled_offset_s": 0.30000000000000004,
+      "actual_offset_s": 0.3008894000086002,
+      "latency_s": 0.001983099995413795,
+      "value": 27.154029444105426,
+      "error": null
+    },
+    {
+      "index": 7,
+      "scheduled_offset_s": 0.35000000000000003,
+      "actual_offset_s": 0.3503946000128053,
+      "latency_s": 0.023473199995351024,
+      "value": 80.14324592371271,
+      "error": null
+    },
+    {
+      "index": 8,
+      "scheduled_offset_s": 0.4,
+      "actual_offset_s": 0.40037660000962205,
+      "latency_s": 0.02106909999565687,
+      "value": 142.18331561602457,
+      "error": null
+    },
+    {
+      "index": 9,
+      "scheduled_offset_s": 0.45,
+      "actual_offset_s": 0.45056720000866335,
+      "latency_s": 0.0023714999988442287,
+      "value": 123.91495495880017,
+      "error": null
+    },
+    {
+      "index": 10,
+      "scheduled_offset_s": 0.5,
+      "actual_offset_s": 0.5006563000060851,
+      "latency_s": 0.0018640000052982941,
+      "value": 160.36628795024157,
+      "error": null
+    },
+    {
+      "index": 11,
+      "scheduled_offset_s": 0.55,
+      "actual_offset_s": 0.5506792000087444,
+      "latency_s": 0.0013101999938953668,
+      "value": 72.48818795105153,
+      "error": null
+    },
+    {
+      "index": 12,
+      "scheduled_offset_s": 0.6000000000000001,
+      "actual_offset_s": 0.6006089000002248,
+      "latency_s": 0.0013509999989764765,
+      "value": 96.75498233654987,
+      "error": null
+    },
+    {
+      "index": 13,
+      "scheduled_offset_s": 0.65,
+      "actual_offset_s": 0.6508955000026617,
+      "latency_s": 0.001270200009457767,
+      "value": 42.01293650978013,
+      "error": null
+    },
+    {
+      "index": 14,
+      "scheduled_offset_s": 0.7000000000000001,
+      "actual_offset_s": 0.70038840000052,
+      "latency_s": 0.0014859000075375661,
+      "value": 28.09425849192887,
+      "error": null
+    },
+    {
+      "index": 15,
+      "scheduled_offset_s": 0.75,
+      "actual_offset_s": 0.7502863000117941,
+      "latency_s": 0.0015400999982375652,
+      "value": 51.940082944943946,
+      "error": null
+    },
+    {
+      "index": 16,
+      "scheduled_offset_s": 0.8,
+      "actual_offset_s": 0.8006284000002779,
+      "latency_s": 0.0014765000087209046,
+      "value": 29.821552710927318,
+      "error": null
+    },
+    {
+      "index": 17,
+      "scheduled_offset_s": 0.8500000000000001,
+      "actual_offset_s": 0.8502212000021245,
+      "latency_s": 0.0017512000049464405,
+      "value": 34.649828912094584,
+      "error": null
+    },
+    {
+      "index": 18,
+      "scheduled_offset_s": 0.9,
+      "actual_offset_s": 0.9019480000133626,
+      "latency_s": 0.00210089999018237,
+      "value": 49.946370030703704,
+      "error": null
+    },
+    {
+      "index": 19,
+      "scheduled_offset_s": 0.9500000000000001,
+      "actual_offset_s": 0.9505128000018885,
+      "latency_s": 0.0014627000055043027,
+      "value": 107.1100718628315,
+      "error": null
+    },
+    {
+      "index": 20,
+      "scheduled_offset_s": 1.0,
+      "actual_offset_s": 1.0003247999993619,
+      "latency_s": 0.0014381000073626637,
+      "value": 57.986073801325865,
+      "error": null
+    },
+    {
+      "index": 21,
+      "scheduled_offset_s": 1.05,
+      "actual_offset_s": 1.0507586000021547,
+      "latency_s": 0.0031787000043550506,
+      "value": 112.06704960692583,
+      "error": null
+    },
+    {
+      "index": 22,
+      "scheduled_offset_s": 1.1,
+      "actual_offset_s": 1.1008329000032973,
+      "latency_s": 0.002034400007687509,
+      "value": 114.61781451680912,
+      "error": null
+    },
+    {
+      "index": 23,
+      "scheduled_offset_s": 1.1500000000000001,
+      "actual_offset_s": 1.1506601000000956,
+      "latency_s": 0.0023287000076379627,
+      "value": 18.788851734463535,
+      "error": null
+    },
+    {
+      "index": 24,
+      "scheduled_offset_s": 1.2000000000000002,
+      "actual_offset_s": 1.200858000011067,
+      "latency_s": 0.002071900002192706,
+      "value": 21.122074544187274,
+      "error": null
+    },
+    {
+      "index": 25,
+      "scheduled_offset_s": 1.25,
+      "actual_offset_s": 1.2504845000075875,
+      "latency_s": 0.00175939999462571,
+      "value": 34.796027338027315,
+      "error": null
+    },
+    {
+      "index": 26,
+      "scheduled_offset_s": 1.3,
+      "actual_offset_s": 1.300427900001523,
+      "latency_s": 0.022257800010265782,
+      "value": 111.24216014916239,
+      "error": null
+    },
+    {
+      "index": 27,
+      "scheduled_offset_s": 1.35,
+      "actual_offset_s": 1.3503395000007004,
+      "latency_s": 0.0014928000018699095,
+      "value": 113.94851339095536,
+      "error": null
+    },
+    {
+      "index": 28,
+      "scheduled_offset_s": 1.4000000000000001,
+      "actual_offset_s": 1.4006035000056727,
+      "latency_s": 0.017157800000859424,
+      "value": 111.55712817983378,
+      "error": null
+    },
+    {
+      "index": 29,
+      "scheduled_offset_s": 1.4500000000000002,
+      "actual_offset_s": 1.4503210000111721,
+      "latency_s": 0.023618099992745556,
+      "value": 54.29546864236267,
+      "error": null
+    },
+    {
+      "index": 30,
+      "scheduled_offset_s": 1.5,
+      "actual_offset_s": 1.5005052000051364,
+      "latency_s": 0.0027304999966872856,
+      "value": 18.998734345591878,
+      "error": null
+    },
+    {
+      "index": 31,
+      "scheduled_offset_s": 1.55,
+      "actual_offset_s": 1.5503758000122616,
+      "latency_s": 0.0012491999950725585,
+      "value": 24.04280629869169,
+      "error": null
+    },
+    {
+      "index": 32,
+      "scheduled_offset_s": 1.6,
+      "actual_offset_s": 1.6003078000067035,
+      "latency_s": 0.014317699999082834,
+      "value": 11.50158942265928,
+      "error": null
+    },
+    {
+      "index": 33,
+      "scheduled_offset_s": 1.6500000000000001,
+      "actual_offset_s": 1.6502189000020735,
+      "latency_s": 0.0014465999993262812,
+      "value": 20.43841587998642,
+      "error": null
+    },
+    {
+      "index": 34,
+      "scheduled_offset_s": 1.7000000000000002,
+      "actual_offset_s": 1.7009017000091262,
+      "latency_s": 0.01706489999196492,
+      "value": 30.55311391667501,
+      "error": null
+    },
+    {
+      "index": 35,
+      "scheduled_offset_s": 1.75,
+      "actual_offset_s": 1.750792500009993,
+      "latency_s": 0.00254760000098031,
+      "value": 41.95750133214818,
+      "error": null
+    },
+    {
+      "index": 36,
+      "scheduled_offset_s": 1.8,
+      "actual_offset_s": 1.8007229000068037,
+      "latency_s": 0.002388499997323379,
+      "value": 98.14052478575294,
+      "error": null
+    },
+    {
+      "index": 37,
+      "scheduled_offset_s": 1.85,
+      "actual_offset_s": 1.850664900004631,
+      "latency_s": 0.002300599997397512,
+      "value": 146.97418500792614,
+      "error": null
+    },
+    {
+      "index": 38,
+      "scheduled_offset_s": 1.9000000000000001,
+      "actual_offset_s": 1.9008128000132274,
+      "latency_s": 0.0019318999984534457,
+      "value": 80.56872412056222,
+      "error": null
+    },
+    {
+      "index": 39,
+      "scheduled_offset_s": 1.9500000000000002,
+      "actual_offset_s": 1.9506105000036769,
+      "latency_s": 0.003464599998551421,
+      "value": 84.36684119836404,
+      "error": null
+    },
+    {
+      "index": 40,
+      "scheduled_offset_s": 2.0,
+      "actual_offset_s": 2.00131040000997,
+      "latency_s": 0.0026514999917708337,
+      "value": 66.56139944195635,
+      "error": null
+    },
+    {
+      "index": 41,
+      "scheduled_offset_s": 2.0500000000000003,
+      "actual_offset_s": 2.05037280000397,
+      "latency_s": 0.0017748999962350354,
+      "value": 77.81755166594286,
+      "error": null
+    },
+    {
+      "index": 42,
+      "scheduled_offset_s": 2.1,
+      "actual_offset_s": 2.1009432999999262,
+      "latency_s": 0.017796000000089407,
+      "value": 113.30799952281225,
+      "error": null
+    },
+    {
+      "index": 43,
+      "scheduled_offset_s": 2.15,
+      "actual_offset_s": 2.150914700003341,
+      "latency_s": 0.0019312000076752156,
+      "value": 127.96118270542547,
+      "error": null
+    },
+    {
+      "index": 44,
+      "scheduled_offset_s": 2.2,
+      "actual_offset_s": 2.2007664000120712,
+      "latency_s": 0.0016648999880999327,
+      "value": 43.67207776695581,
+      "error": null
+    },
+    {
+      "index": 45,
+      "scheduled_offset_s": 2.25,
+      "actual_offset_s": 2.250564200003282,
+      "latency_s": 0.024993500002892688,
+      "value": 60.80843195559808,
+      "error": null
+    },
+    {
+      "index": 46,
+      "scheduled_offset_s": 2.3000000000000003,
+      "actual_offset_s": 2.3004899000079604,
+      "latency_s": 0.016744199994718656,
+      "value": 59.77984439447577,
+      "error": null
+    },
+    {
+      "index": 47,
+      "scheduled_offset_s": 2.35,
+      "actual_offset_s": 2.350992200008477,
+      "latency_s": 0.003500299993902445,
+      "value": 95.09779908778337,
+      "error": null
+    },
+    {
+      "index": 48,
+      "scheduled_offset_s": 2.4000000000000004,
+      "actual_offset_s": 2.4007339000090724,
+      "latency_s": 0.002260799999930896,
+      "value": 47.00543351932223,
+      "error": null
+    },
+    {
+      "index": 49,
+      "scheduled_offset_s": 2.45,
+      "actual_offset_s": 2.4504073999996763,
+      "latency_s": 0.01713500000187196,
+      "value": 74.12841178380708,
+      "error": null
+    },
+    {
+      "index": 50,
+      "scheduled_offset_s": 2.5,
+      "actual_offset_s": 2.5008106000022963,
+      "latency_s": 0.0021188000100664794,
+      "value": 85.83622607158462,
+      "error": null
+    },
+    {
+      "index": 51,
+      "scheduled_offset_s": 2.5500000000000003,
+      "actual_offset_s": 2.5506036000006134,
+      "latency_s": 0.022728100011590868,
+      "value": 72.32810229171969,
+      "error": null
+    },
+    {
+      "index": 52,
+      "scheduled_offset_s": 2.6,
+      "actual_offset_s": 2.600701500006835,
+      "latency_s": 0.002075299998978153,
+      "value": 17.91303174609835,
+      "error": null
+    },
+    {
+      "index": 53,
+      "scheduled_offset_s": 2.6500000000000004,
+      "actual_offset_s": 2.650989200003096,
+      "latency_s": 0.002553700003772974,
+      "value": 43.00616896393814,
+      "error": null
+    },
+    {
+      "index": 54,
+      "scheduled_offset_s": 2.7,
+      "actual_offset_s": 2.7002926000131993,
+      "latency_s": 0.01618509998661466,
+      "value": 20.683481784071855,
+      "error": null
+    },
+    {
+      "index": 55,
+      "scheduled_offset_s": 2.75,
+      "actual_offset_s": 2.750484800009872,
+      "latency_s": 0.0022413999977288768,
+      "value": 83.19386952575408,
+      "error": null
+    },
+    {
+      "index": 56,
+      "scheduled_offset_s": 2.8000000000000003,
+      "actual_offset_s": 2.8006266000011237,
+      "latency_s": 0.016677600011462346,
+      "value": 99.18920031944413,
+      "error": null
+    },
+    {
+      "index": 57,
+      "scheduled_offset_s": 2.85,
+      "actual_offset_s": 2.850669100007508,
+      "latency_s": 0.002158499992219731,
+      "value": 73.68680676685044,
+      "error": null
+    },
+    {
+      "index": 58,
+      "scheduled_offset_s": 2.9000000000000004,
+      "actual_offset_s": 2.9003192000091076,
+      "latency_s": 0.02198089999728836,
+      "value": 135.29303499392904,
+      "error": null
+    },
+    {
+      "index": 59,
+      "scheduled_offset_s": 2.95,
+      "actual_offset_s": 2.950856499999645,
+      "latency_s": 0.0014060000103199854,
+      "value": 100.97939649198634,
+      "error": null
+    },
+    {
+      "index": 60,
+      "scheduled_offset_s": 3.0,
+      "actual_offset_s": 3.0001727000053506,
+      "latency_s": 0.0014412000018637627,
+      "value": 134.76837575713378,
+      "error": null
+    },
+    {
+      "index": 61,
+      "scheduled_offset_s": 3.0500000000000003,
+      "actual_offset_s": 3.0508364000124857,
+      "latency_s": 0.0182992999907583,
+      "value": 153.33343634797183,
+      "error": null
+    },
+    {
+      "index": 62,
+      "scheduled_offset_s": 3.1,
+      "actual_offset_s": 3.100328400003491,
+      "latency_s": 0.01543830000446178,
+      "value": 53.3190928879464,
+      "error": null
+    },
+    {
+      "index": 63,
+      "scheduled_offset_s": 3.1500000000000004,
+      "actual_offset_s": 3.150294400009443,
+      "latency_s": 0.020667199991294183,
+      "value": 19.467533363206506,
+      "error": null
+    },
+    {
+      "index": 64,
+      "scheduled_offset_s": 3.2,
+      "actual_offset_s": 3.200070000006235,
+      "latency_s": 0.0012416999961715192,
+      "value": 162.47234218615412,
+      "error": null
+    },
+    {
+      "index": 65,
+      "scheduled_offset_s": 3.25,
+      "actual_offset_s": 3.250223499999265,
+      "latency_s": 0.0010609000019030645,
+      "value": 53.11951363772602,
+      "error": null
+    },
+    {
+      "index": 66,
+      "scheduled_offset_s": 3.3000000000000003,
+      "actual_offset_s": 3.30046840000432,
+      "latency_s": 0.01631600000837352,
+      "value": 107.28077353836326,
+      "error": null
+    },
+    {
+      "index": 67,
+      "scheduled_offset_s": 3.35,
+      "actual_offset_s": 3.3501335000037216,
+      "latency_s": 0.014779300006921403,
+      "value": 24.618744399921553,
+      "error": null
+    },
+    {
+      "index": 68,
+      "scheduled_offset_s": 3.4000000000000004,
+      "actual_offset_s": 3.4003235999989556,
+      "latency_s": 0.014601600007154047,
+      "value": 11.819415710819769,
+      "error": null
+    },
+    {
+      "index": 69,
+      "scheduled_offset_s": 3.45,
+      "actual_offset_s": 3.4500751000014134,
+      "latency_s": 0.0011670000094454736,
+      "value": 52.105139682111314,
+      "error": null
+    },
+    {
+      "index": 70,
+      "scheduled_offset_s": 3.5,
+      "actual_offset_s": 3.5004661999992095,
+      "latency_s": 0.01827130001038313,
+      "value": 56.79366092332758,
+      "error": null
+    },
+    {
+      "index": 71,
+      "scheduled_offset_s": 3.5500000000000003,
+      "actual_offset_s": 3.550671600009082,
+      "latency_s": 0.0014693999983137473,
+      "value": 113.9119783815706,
+      "error": null
+    },
+    {
+      "index": 72,
+      "scheduled_offset_s": 3.6,
+      "actual_offset_s": 3.600594600007753,
+      "latency_s": 0.001042599993525073,
+      "value": 156.56634585638383,
+      "error": null
+    },
+    {
+      "index": 73,
+      "scheduled_offset_s": 3.6500000000000004,
+      "actual_offset_s": 3.6503593000088586,
+      "latency_s": 0.001203199994051829,
+      "value": 81.79497426018052,
+      "error": null
+    },
+    {
+      "index": 74,
+      "scheduled_offset_s": 3.7,
+      "actual_offset_s": 3.700650400001905,
+      "latency_s": 0.0011740000045392662,
+      "value": 108.30248416481591,
+      "error": null
+    },
+    {
+      "index": 75,
+      "scheduled_offset_s": 3.75,
+      "actual_offset_s": 3.7507872999995016,
+      "latency_s": 0.003622700009145774,
+      "value": 64.52266052221694,
+      "error": null
+    },
+    {
+      "index": 76,
+      "scheduled_offset_s": 3.8000000000000003,
+      "actual_offset_s": 3.800513200010755,
+      "latency_s": 0.015593499992974102,
+      "value": 72.88760553648083,
+      "error": null
+    },
+    {
+      "index": 77,
+      "scheduled_offset_s": 3.85,
+      "actual_offset_s": 3.8504727000108687,
+      "latency_s": 0.017462999996496364,
+      "value": 33.7676698586095,
+      "error": null
+    },
+    {
+      "index": 78,
+      "scheduled_offset_s": 3.9000000000000004,
+      "actual_offset_s": 3.900556000007782,
+      "latency_s": 0.01597300000139512,
+      "value": 113.78807178301014,
+      "error": null
+    },
+    {
+      "index": 79,
+      "scheduled_offset_s": 3.95,
+      "actual_offset_s": 3.9506450000044424,
+      "latency_s": 0.0019739999988814816,
+      "value": 54.16153862891973,
+      "error": null
+    },
+    {
+      "index": 80,
+      "scheduled_offset_s": 4.0,
+      "actual_offset_s": 4.000524900009623,
+      "latency_s": 0.002586999995401129,
+      "value": 162.32242983634066,
+      "error": null
+    },
+    {
+      "index": 81,
+      "scheduled_offset_s": 4.05,
+      "actual_offset_s": 4.050429499999154,
+      "latency_s": 0.013221000001067296,
+      "value": 69.5885747482029,
+      "error": null
+    },
+    {
+      "index": 82,
+      "scheduled_offset_s": 4.1000000000000005,
+      "actual_offset_s": 4.100434000007226,
+      "latency_s": 0.01794530000188388,
+      "value": 37.34878647349127,
+      "error": null
+    },
+    {
+      "index": 83,
+      "scheduled_offset_s": 4.15,
+      "actual_offset_s": 4.150476200011326,
+      "latency_s": 0.0012382999993860722,
+      "value": 123.79751439556976,
+      "error": null
+    },
+    {
+      "index": 84,
+      "scheduled_offset_s": 4.2,
+      "actual_offset_s": 4.200320600008126,
+      "latency_s": 0.001050299993949011,
+      "value": 37.952684609550296,
+      "error": null
+    },
+    {
+      "index": 85,
+      "scheduled_offset_s": 4.25,
+      "actual_offset_s": 4.250266800008831,
+      "latency_s": 0.001091800004360266,
+      "value": 65.89197838194157,
+      "error": null
+    },
+    {
+      "index": 86,
+      "scheduled_offset_s": 4.3,
+      "actual_offset_s": 4.30059220000112,
+      "latency_s": 0.017300799998338334,
+      "value": 32.21502042610455,
+      "error": null
+    },
+    {
+      "index": 87,
+      "scheduled_offset_s": 4.3500000000000005,
+      "actual_offset_s": 4.350735400003032,
+      "latency_s": 0.0013131000014254823,
+      "value": 63.04230355072495,
+      "error": null
+    },
+    {
+      "index": 88,
+      "scheduled_offset_s": 4.4,
+      "actual_offset_s": 4.400770799999009,
+      "latency_s": 0.02528260000690352,
+      "value": 66.67199904155383,
+      "error": null
+    },
+    {
+      "index": 89,
+      "scheduled_offset_s": 4.45,
+      "actual_offset_s": 4.450666000004276,
+      "latency_s": 0.001652300008572638,
+      "value": 125.82987893776756,
+      "error": null
+    },
+    {
+      "index": 90,
+      "scheduled_offset_s": 4.5,
+      "actual_offset_s": 4.500225399999181,
+      "latency_s": 0.0017050000024028122,
+      "value": 69.58055607200365,
+      "error": null
+    },
+    {
+      "index": 91,
+      "scheduled_offset_s": 4.55,
+      "actual_offset_s": 4.550766000000294,
+      "latency_s": 0.0017847000126494095,
+      "value": 64.97392835863816,
+      "error": null
+    },
+    {
+      "index": 92,
+      "scheduled_offset_s": 4.6000000000000005,
+      "actual_offset_s": 4.60077160000219,
+      "latency_s": 0.0012971999967703596,
+      "value": 89.71419671711703,
+      "error": null
+    },
+    {
+      "index": 93,
+      "scheduled_offset_s": 4.65,
+      "actual_offset_s": 4.650453000009293,
+      "latency_s": 0.0168271000002278,
+      "value": 98.9327953161566,
+      "error": null
+    },
+    {
+      "index": 94,
+      "scheduled_offset_s": 4.7,
+      "actual_offset_s": 4.700313699999242,
+      "latency_s": 0.016702400011126883,
+      "value": 40.91281002524789,
+      "error": null
+    },
+    {
+      "index": 95,
+      "scheduled_offset_s": 4.75,
+      "actual_offset_s": 4.750646900007268,
+      "latency_s": 0.0013242999993963167,
+      "value": 93.22766639565143,
+      "error": null
+    },
+    {
+      "index": 96,
+      "scheduled_offset_s": 4.800000000000001,
+      "actual_offset_s": 4.80034900001192,
+      "latency_s": 0.0224337999970885,
+      "value": 23.96870558777152,
+      "error": null
+    },
+    {
+      "index": 97,
+      "scheduled_offset_s": 4.8500000000000005,
+      "actual_offset_s": 4.8506247000041185,
+      "latency_s": 0.0013795999984722584,
+      "value": 22.30780915076505,
+      "error": null
+    },
+    {
+      "index": 98,
+      "scheduled_offset_s": 4.9,
+      "actual_offset_s": 4.900492000000668,
+      "latency_s": 0.0014897000073688105,
+      "value": 41.20085794738901,
+      "error": null
+    },
+    {
+      "index": 99,
+      "scheduled_offset_s": 4.95,
+      "actual_offset_s": 4.950519800011534,
+      "latency_s": 0.001756699988618493,
+      "value": 79.88491306961784,
+      "error": null
+    }
+  ],
+  "analysis": {
+    "statistics": {
+      "count": 100,
+      "mean": 72.99497759007411,
+      "median": 69.53687943102668,
+      "std_dev": 40.64922942031815,
+      "min": 8.439617063452,
+      "max": 162.47234218615412,
+      "range": 154.03272512270212,
+      "cv_percent": 55.687707240074076,
+      "sem": 4.064922942031815,
+      "ci95_low": 65.02772862369176,
+      "ci95_high": 80.96222655645647
+    },
+    "timing": {
+      "target_frequency_hz": 20.0,
+      "achieved_frequency_hz": 19.997926275621985,
+      "mean_jitter_ms": 0.5663980056122927,
+      "max_jitter_ms": 1.948000013362594,
+      "mean_latency_ms": 7.272430000448367,
+      "max_latency_ms": 25.28260000690352,
+      "elapsed_s": 5.000491200000397
+    },
+    "consistency": {
+      "outlier_count": 0,
+      "outlier_indices": [],
+      "drift_per_sample": 0.045021975638172146,
+      "drift_percent": 6.409800992867527,
+      "first_half_mean": 70.58443347167118,
+      "second_half_mean": 75.40552170847704,
+      "failure_rate_percent": 0.0
+    },
+    "accuracy": {
+      "reference_current": 68.75,
+      "bias": 4.2449775900741145,
+      "relative_error_percent": 6.174512858289621,
+      "reference_within_ci95": true
+    }
+  },
+  "verdict": {
+    "passed": true,
+    "checks": [
+      {
+        "name": "valid measurements",
+        "limit": 1,
+        "actual": 100,
+        "passed": true
+      },
+      {
+        "name": "failure rate %",
+        "limit": 0,
+        "actual": 0.0,
+        "passed": true
+      },
+      {
+        "name": "frequency ratio",
+        "limit": 0.9,
+        "actual": 0.9998963137810992,
+        "passed": true
+      }
+    ]
+  },
+  "schema_version": 1
+}

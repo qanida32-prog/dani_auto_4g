@@ -44,6 +44,9 @@ effect, and the fix.
 | # | File | Problem | Effect | Fix |
 |---|------|---------|--------|-----|
 | 21 | `config/config.yaml`, `client.py`, `base_ammeter.py` | The host was `localhost`. The emulators listen on IPv4 only. On Windows, `socket.create_connection("localhost")` tries IPv6 `::1` first, and Windows retries a refused connection for ~2 s before falling back to `127.0.0.1`. | Every request took ~2.0 s (measured: 2.03 s vs 0.017 s), so `main.py` took 6 s and sampling above ~0.5 Hz was impossible. | The host is `127.0.0.1` in config and in the client/emulator defaults. |
+| 22 | `config/config.yaml` | `analysis.statistical_metrics` and `analysis.visualization.plot_types` were in the provided config, but no code read them. | Changing them had no effect, with no warning. | Both now control the console table and the HTML report, and unknown names are rejected. |
+| 23 | `src/utils/logger.py` | `TestLogger` (a per-test log file) was provided but never used. Its logger also propagated to the console. | No per-run log existed. | Every run writes `results/logs/<run_id>.log`. Added `close()`, so the file is released (Windows locks open files), and the logger no longer floods the console. |
+| 24 | project | `requires-python >= 3.10` was declared, but running on 3.8 failed deep inside the code with `TypeError: zip() takes no keyword arguments`. | A confusing first experience on machines whose default `python` is old. | `src/__init__.py` checks the version first and explains how to create the venv with a newer Python. |
 
 ## Kept as-is on purpose
 

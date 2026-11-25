@@ -5,6 +5,7 @@ Layout under ``results_dir``::
     runs/<run_id>.json        one ammeter, one sampling run (samples + analysis + metadata)
     suites/<suite_id>.json    a set of runs taken together, plus their comparison
     reports/<id>.html         human-readable report for a run or a suite
+    logs/<run_id>.log         every request of a run, with timing and errors
 
 Plain JSON files: no database, readable by any tool, easy to diff and to archive.
 """
@@ -106,6 +107,7 @@ class ResultStore:
         self.runs_dir = self.root / "runs"
         self.suites_dir = self.root / "suites"
         self.reports_dir = self.root / "reports"
+        self.logs_dir = self.root / "logs"
 
     # ------------------------------------------------------------------ write
     def save_run(self, result: TestResult) -> Path:

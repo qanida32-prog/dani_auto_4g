@@ -1,0 +1,209 @@
+2026-11-25 14:21:14,619 | INFO     | test.20261125-142114-entes-97e59e | run 20261125-142114-entes-97e59e: entes at 127.0.0.1:5001 command='MEASURE_ENTES -get_data' plan=stress
+2026-11-25 14:21:14,619 | INFO     | test.20261125-142114-entes-97e59e | sampling {'measurements_count': 200, 'total_duration_seconds': 5.0, 'sampling_frequency_hz': 40.0}
+2026-11-25 14:21:14,619 | INFO     | test.20261125-142114-entes-97e59e | acceptance {'max_failure_rate_percent': 15, 'max_cv_percent': None, 'max_abs_relative_error_percent': None, 'max_outliers': None, 'min_frequency_ratio': 0.8, 'max_drift_percent': None}
+2026-11-25 14:21:14,619 | WARNING  | test.20261125-142114-entes-97e59e | error simulation ON {'enabled': True, 'connection_error_rate': 0.05, 'protocol_error_rate': 0.03, 'spike_rate': 0.05, 'spike_factor': 10, 'seed': 1234}
+2026-11-25 14:21:19,624 | ERROR    | test.20261125-142114-entes-97e59e | #0 t=0.0000s FAILED: AmmeterConnectionError: simulated timeout
+2026-11-25 14:21:19,625 | DEBUG    | test.20261125-142114-entes-97e59e | #1 t=0.0255s latency=1.6ms value=115.10550668923847 A
+2026-11-25 14:21:19,626 | DEBUG    | test.20261125-142114-entes-97e59e | #2 t=0.0505s latency=18.5ms value=40.7222779364041 A
+2026-11-25 14:21:19,626 | DEBUG    | test.20261125-142114-entes-97e59e | #3 t=0.0755s latency=3.9ms value=57.0510394206945 A
+2026-11-25 14:21:19,626 | DEBUG    | test.20261125-142114-entes-97e59e | #4 t=0.1170s latency=21.2ms value=111.11931853346998 A
+2026-11-25 14:21:19,626 | DEBUG    | test.20261125-142114-entes-97e59e | #5 t=0.1382s latency=1.2ms value=16.72379911645362 A
+2026-11-25 14:21:19,626 | DEBUG    | test.20261125-142114-entes-97e59e | #6 t=0.1501s latency=18.6ms value=50.154237088675245 A
+2026-11-25 14:21:19,627 | DEBUG    | test.20261125-142114-entes-97e59e | #7 t=0.1756s latency=21.8ms value=34.71453425725609 A
+2026-11-25 14:21:19,627 | ERROR    | test.20261125-142114-entes-97e59e | #8 t=0.2003s FAILED: AmmeterConnectionError: simulated timeout
+2026-11-25 14:21:19,627 | DEBUG    | test.20261125-142114-entes-97e59e | #9 t=0.2258s latency=1.8ms value=110.89114489358832 A
+2026-11-25 14:21:19,627 | DEBUG    | test.20261125-142114-entes-97e59e | #10 t=0.2506s latency=2.2ms value=79.56757461289459 A
+2026-11-25 14:21:19,627 | DEBUG    | test.20261125-142114-entes-97e59e | #11 t=0.2754s latency=12.8ms value=29.32032295387279 A
+2026-11-25 14:21:19,627 | DEBUG    | test.20261125-142114-entes-97e59e | #12 t=0.3005s latency=3.2ms value=43.81768360183169 A
+2026-11-25 14:21:19,627 | DEBUG    | test.20261125-142114-entes-97e59e | #13 t=0.3254s latency=2.8ms value=124.73071368026535 A
+2026-11-25 14:21:19,627 | DEBUG    | test.20261125-142114-entes-97e59e | #14 t=0.3505s latency=26.3ms value=30.686980388010895 A
+2026-11-25 14:21:19,627 | DEBUG    | test.20261125-142114-entes-97e59e | #15 t=0.3769s latency=17.3ms value=38.48865391985031 A
+2026-11-25 14:21:19,627 | DEBUG    | test.20261125-142114-entes-97e59e | #16 t=0.4001s latency=18.6ms value=28.00700583964662 A
+2026-11-25 14:21:19,627 | DEBUG    | test.20261125-142114-entes-97e59e | #17 t=0.4257s latency=1.6ms value=107.49555612707006 A
+2026-11-25 14:21:19,627 | DEBUG    | test.20261125-142114-entes-97e59e | #18 t=0.4510s latency=4.2ms value=86.16693268851414 A
+2026-11-25 14:21:19,627 | DEBUG    | test.20261125-142114-entes-97e59e | #19 t=0.4753s latency=1.8ms value=34.258321193058805 A
+2026-11-25 14:21:19,634 | DEBUG    | test.20261125-142114-entes-97e59e | #20 t=0.5002s latency=1.0ms value=56.57336949096617 A
+2026-11-25 14:21:19,634 | DEBUG    | test.20261125-142114-entes-97e59e | #21 t=0.5256s latency=20.6ms value=435.0983783665134 A
+2026-11-25 14:21:19,634 | DEBUG    | test.20261125-142114-entes-97e59e | #22 t=0.5507s latency=1.9ms value=60.94288994340814 A
+2026-11-25 14:21:19,634 | DEBUG    | test.20261125-142114-entes-97e59e | #23 t=0.5756s latency=22.4ms value=855.6796808798532 A
+2026-11-25 14:21:19,634 | ERROR    | test.20261125-142114-entes-97e59e | #24 t=0.6003s FAILED: AmmeterProtocolError: simulated non-numeric response
+2026-11-25 14:21:19,634 | DEBUG    | test.20261125-142114-entes-97e59e | #25 t=0.6259s latency=1.5ms value=114.30168092101702 A
+2026-11-25 14:21:19,634 | DEBUG    | test.20261125-142114-entes-97e59e | #26 t=0.6507s latency=2.4ms value=53.56895700313482 A
+2026-11-25 14:21:19,634 | ERROR    | test.20261125-142114-entes-97e59e | #27 t=0.6755s FAILED: AmmeterConnectionError: simulated timeout
+2026-11-25 14:21:19,634 | DEBUG    | test.20261125-142114-entes-97e59e | #28 t=0.7002s latency=16.6ms value=42.26585866061875 A
+2026-11-25 14:21:19,634 | DEBUG    | test.20261125-142114-entes-97e59e | #29 t=0.7252s latency=1.3ms value=72.81192785156043 A
+2026-11-25 14:21:19,634 | DEBUG    | test.20261125-142114-entes-97e59e | #30 t=0.7503s latency=11.5ms value=152.2865145431317 A
+2026-11-25 14:21:19,634 | DEBUG    | test.20261125-142114-entes-97e59e | #31 t=0.7756s latency=1.5ms value=172.60298698130177 A
+2026-11-25 14:21:19,634 | DEBUG    | test.20261125-142114-entes-97e59e | #32 t=0.8002s latency=18.2ms value=139.91146016870573 A
+2026-11-25 14:21:19,634 | DEBUG    | test.20261125-142114-entes-97e59e | #33 t=0.8255s latency=24.9ms value=16.98268479998252 A
+2026-11-25 14:21:19,634 | DEBUG    | test.20261125-142114-entes-97e59e | #34 t=0.8505s latency=1.0ms value=34.96082625457886 A
+2026-11-25 14:21:19,634 | DEBUG    | test.20261125-142114-entes-97e59e | #35 t=0.8754s latency=15.9ms value=41.40512339769683 A
+2026-11-25 14:21:19,634 | DEBUG    | test.20261125-142114-entes-97e59e | #36 t=0.9002s latency=2.1ms value=82.57068430744103 A
+2026-11-25 14:21:19,634 | DEBUG    | test.20261125-142114-entes-97e59e | #37 t=0.9256s latency=1.5ms value=65.5910016717523 A
+2026-11-25 14:21:19,634 | DEBUG    | test.20261125-142114-entes-97e59e | #38 t=0.9503s latency=20.9ms value=403.0113722190387 A
+2026-11-25 14:21:19,634 | DEBUG    | test.20261125-142114-entes-97e59e | #39 t=0.9754s latency=1.3ms value=33.3947730116737 A
+2026-11-25 14:21:19,642 | DEBUG    | test.20261125-142114-entes-97e59e | #40 t=1.0005s latency=19.4ms value=68.31486543339862 A
+2026-11-25 14:21:19,643 | ERROR    | test.20261125-142114-entes-97e59e | #41 t=1.0257s FAILED: AmmeterConnectionError: simulated timeout
+2026-11-25 14:21:19,643 | ERROR    | test.20261125-142114-entes-97e59e | #42 t=1.0504s FAILED: AmmeterProtocolError: simulated non-numeric response
+2026-11-25 14:21:19,643 | ERROR    | test.20261125-142114-entes-97e59e | #43 t=1.0756s FAILED: AmmeterProtocolError: simulated non-numeric response
+2026-11-25 14:21:19,643 | ERROR    | test.20261125-142114-entes-97e59e | #44 t=1.1005s FAILED: AmmeterProtocolError: simulated non-numeric response
+2026-11-25 14:21:19,643 | DEBUG    | test.20261125-142114-entes-97e59e | #45 t=1.1258s latency=22.4ms value=30.95195048088578 A
+2026-11-25 14:21:19,643 | DEBUG    | test.20261125-142114-entes-97e59e | #46 t=1.1502s latency=1.4ms value=14.814507406174911 A
+2026-11-25 14:21:19,643 | DEBUG    | test.20261125-142114-entes-97e59e | #47 t=1.1752s latency=1.2ms value=48.882178102342046 A
+2026-11-25 14:21:19,643 | DEBUG    | test.20261125-142114-entes-97e59e | #48 t=1.2004s latency=1.2ms value=122.14785587590862 A
+2026-11-25 14:21:19,643 | DEBUG    | test.20261125-142114-entes-97e59e | #49 t=1.2256s latency=22.4ms value=126.88230129082716 A
+2026-11-25 14:21:19,643 | DEBUG    | test.20261125-142114-entes-97e59e | #50 t=1.2504s latency=21.6ms value=109.269995321157 A
+2026-11-25 14:21:19,643 | DEBUG    | test.20261125-142114-entes-97e59e | #51 t=1.2753s latency=2.2ms value=29.78761811240337 A
+2026-11-25 14:21:19,643 | DEBUG    | test.20261125-142114-entes-97e59e | #52 t=1.3005s latency=1.7ms value=33.553716702954574 A
+2026-11-25 14:21:19,643 | DEBUG    | test.20261125-142114-entes-97e59e | #53 t=1.3254s latency=12.9ms value=81.10499934853102 A
+2026-11-25 14:21:19,643 | DEBUG    | test.20261125-142114-entes-97e59e | #54 t=1.3504s latency=18.5ms value=125.53628129533209 A
+2026-11-25 14:21:19,643 | DEBUG    | test.20261125-142114-entes-97e59e | #55 t=1.3754s latency=2.8ms value=39.5040491959797 A
+2026-11-25 14:21:19,643 | DEBUG    | test.20261125-142114-entes-97e59e | #56 t=1.4010s latency=2.8ms value=139.16208210667472 A
+2026-11-25 14:21:19,643 | DEBUG    | test.20261125-142114-entes-97e59e | #57 t=1.4255s latency=1.8ms value=91.3885452618676 A
+2026-11-25 14:21:19,643 | DEBUG    | test.20261125-142114-entes-97e59e | #58 t=1.4511s latency=2.7ms value=98.40485671928664 A
+2026-11-25 14:21:19,643 | DEBUG    | test.20261125-142114-entes-97e59e | #59 t=1.4752s latency=15.7ms value=26.926378638359303 A
+2026-11-25 14:21:19,643 | DEBUG    | test.20261125-142114-entes-97e59e | #60 t=1.5005s latency=3.2ms value=95.50821968376307 A
+2026-11-25 14:21:19,643 | DEBUG    | test.20261125-142114-entes-97e59e | #61 t=1.5256s latency=22.3ms value=18.783285810645822 A
+2026-11-25 14:21:19,643 | DEBUG    | test.20261125-142114-entes-97e59e | #62 t=1.5502s latency=2.4ms value=47.96423824968704 A
+2026-11-25 14:21:19,643 | DEBUG    | test.20261125-142114-entes-97e59e | #63 t=1.5756s latency=2.0ms value=166.19557371771623 A
+2026-11-25 14:21:19,643 | DEBUG    | test.20261125-142114-entes-97e59e | #64 t=1.6007s latency=18.9ms value=114.86760785787683 A
+2026-11-25 14:21:19,643 | DEBUG    | test.20261125-142114-entes-97e59e | #65 t=1.6253s latency=27.9ms value=137.3471505424368 A
+2026-11-25 14:21:19,643 | DEBUG    | test.20261125-142114-entes-97e59e | #66 t=1.6533s latency=31.7ms value=79.77701986420419 A
+2026-11-25 14:21:19,643 | DEBUG    | test.20261125-142114-entes-97e59e | #67 t=1.6850s latency=12.1ms value=72.22113091213616 A
+2026-11-25 14:21:19,651 | DEBUG    | test.20261125-142114-entes-97e59e | #68 t=1.7005s latency=3.3ms value=48.70321606164686 A
+2026-11-25 14:21:19,651 | DEBUG    | test.20261125-142114-entes-97e59e | #69 t=1.7253s latency=1.5ms value=91.23790846961153 A
+2026-11-25 14:21:19,651 | DEBUG    | test.20261125-142114-entes-97e59e | #70 t=1.7508s latency=1.3ms value=41.177812692935106 A
+2026-11-25 14:21:19,651 | DEBUG    | test.20261125-142114-entes-97e59e | #71 t=1.7756s latency=1.3ms value=53.849715628634485 A
+2026-11-25 14:21:19,651 | DEBUG    | test.20261125-142114-entes-97e59e | #72 t=1.8005s latency=18.0ms value=536.2351767607378 A
+2026-11-25 14:21:19,651 | DEBUG    | test.20261125-142114-entes-97e59e | #73 t=1.8255s latency=25.0ms value=53.67777634448848 A
+2026-11-25 14:21:19,651 | DEBUG    | test.20261125-142114-entes-97e59e | #74 t=1.8504s latency=16.8ms value=39.92380313443907 A
+2026-11-25 14:21:19,651 | ERROR    | test.20261125-142114-entes-97e59e | #75 t=1.8756s FAILED: AmmeterConnectionError: simulated timeout
+2026-11-25 14:21:19,651 | DEBUG    | test.20261125-142114-entes-97e59e | #76 t=1.9006s latency=13.8ms value=80.40916877960056 A
+2026-11-25 14:21:19,651 | DEBUG    | test.20261125-142114-entes-97e59e | #77 t=1.9254s latency=3.1ms value=11.570731101795303 A
+2026-11-25 14:21:19,651 | DEBUG    | test.20261125-142114-entes-97e59e | #78 t=1.9507s latency=20.8ms value=64.34983389564421 A
+2026-11-25 14:21:19,651 | DEBUG    | test.20261125-142114-entes-97e59e | #79 t=1.9754s latency=12.5ms value=67.77500254917273 A
+2026-11-25 14:21:19,651 | DEBUG    | test.20261125-142114-entes-97e59e | #80 t=2.0005s latency=20.7ms value=55.80019393411298 A
+2026-11-25 14:21:19,651 | DEBUG    | test.20261125-142114-entes-97e59e | #81 t=2.0253s latency=13.0ms value=114.72705118656306 A
+2026-11-25 14:21:19,651 | ERROR    | test.20261125-142114-entes-97e59e | #82 t=2.0505s FAILED: AmmeterConnectionError: simulated timeout
+2026-11-25 14:21:19,651 | DEBUG    | test.20261125-142114-entes-97e59e | #83 t=2.0758s latency=2.0ms value=38.69361884075189 A
+2026-11-25 14:21:19,651 | DEBUG    | test.20261125-142114-entes-97e59e | #84 t=2.1006s latency=18.8ms value=85.73194114490697 A
+2026-11-25 14:21:19,651 | DEBUG    | test.20261125-142114-entes-97e59e | #85 t=2.1252s latency=26.6ms value=77.13580523260268 A
+2026-11-25 14:21:19,651 | DEBUG    | test.20261125-142114-entes-97e59e | #86 t=2.1518s latency=2.1ms value=51.98828616110142 A
+2026-11-25 14:21:19,651 | DEBUG    | test.20261125-142114-entes-97e59e | #87 t=2.1756s latency=12.5ms value=67.06967796731918 A
+2026-11-25 14:21:19,651 | DEBUG    | test.20261125-142114-entes-97e59e | #88 t=2.2006s latency=2.6ms value=84.91083939921417 A
+2026-11-25 14:21:19,651 | DEBUG    | test.20261125-142114-entes-97e59e | #89 t=2.2259s latency=2.2ms value=159.01947028883026 A
+2026-11-25 14:21:19,651 | DEBUG    | test.20261125-142114-entes-97e59e | #90 t=2.2511s latency=2.7ms value=17.43675312054023 A
+2026-11-25 14:21:19,651 | DEBUG    | test.20261125-142114-entes-97e59e | #91 t=2.2757s latency=2.2ms value=750.7057828267727 A
+2026-11-25 14:21:19,651 | DEBUG    | test.20261125-142114-entes-97e59e | #92 t=2.3007s latency=18.1ms value=109.5234955962512 A
+2026-11-25 14:21:19,651 | DEBUG    | test.20261125-142114-entes-97e59e | #93 t=2.3253s latency=26.7ms value=996.214656716412 A
+2026-11-25 14:21:19,651 | DEBUG    | test.20261125-142114-entes-97e59e | #94 t=2.3521s latency=2.0ms value=1311.2897423890902 A
+2026-11-25 14:21:19,651 | DEBUG    | test.20261125-142114-entes-97e59e | #95 t=2.3758s latency=12.2ms value=55.67696646892358 A
+2026-11-25 14:21:19,659 | DEBUG    | test.20261125-142114-entes-97e59e | #96 t=2.4004s latency=2.0ms value=110.93755355192353 A
+2026-11-25 14:21:19,660 | DEBUG    | test.20261125-142114-entes-97e59e | #97 t=2.4254s latency=26.8ms value=93.46825291711124 A
+2026-11-25 14:21:19,660 | DEBUG    | test.20261125-142114-entes-97e59e | #98 t=2.4522s latency=1.5ms value=181.34698535902874 A
+2026-11-25 14:21:19,660 | DEBUG    | test.20261125-142114-entes-97e59e | #99 t=2.4756s latency=13.2ms value=36.558306994894735 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #100 t=2.5006s latency=1.5ms value=74.27345500289451 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #101 t=2.5254s latency=11.0ms value=56.886233962765424 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #102 t=2.5506s latency=1.4ms value=154.23120328766322 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #103 t=2.5758s latency=2.0ms value=14.070762190573138 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #104 t=2.6004s latency=17.7ms value=37.90021612272578 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #105 t=2.6254s latency=1.6ms value=98.3307354116332 A
+2026-11-25 14:21:19,662 | ERROR    | test.20261125-142114-entes-97e59e | #106 t=2.6506s FAILED: AmmeterConnectionError: simulated timeout
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #107 t=2.6758s latency=2.8ms value=71.0804991193313 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #108 t=2.7004s latency=1.2ms value=103.52740948412409 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #109 t=2.7258s latency=1.7ms value=10.274048857543134 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #110 t=2.7504s latency=1.5ms value=130.0476091783236 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #111 t=2.7755s latency=1.4ms value=162.2798228546159 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #112 t=2.8003s latency=18.6ms value=29.10965222691298 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #113 t=2.8253s latency=2.0ms value=31.556058481969632 A
+2026-11-25 14:21:19,662 | ERROR    | test.20261125-142114-entes-97e59e | #114 t=2.8503s FAILED: AmmeterConnectionError: simulated timeout
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #115 t=2.8754s latency=2.1ms value=24.410135896119797 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #116 t=2.9002s latency=1.0ms value=57.84503871299095 A
+2026-11-25 14:21:19,662 | ERROR    | test.20261125-142114-entes-97e59e | #117 t=2.9257s FAILED: AmmeterConnectionError: simulated timeout
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #118 t=2.9507s latency=14.4ms value=12.945106622486401 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #119 t=2.9755s latency=1.7ms value=95.27922454643691 A
+2026-11-25 14:21:19,662 | ERROR    | test.20261125-142114-entes-97e59e | #120 t=3.0003s FAILED: AmmeterConnectionError: simulated timeout
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #121 t=3.0255s latency=21.7ms value=26.5874064099457 A
+2026-11-25 14:21:19,662 | ERROR    | test.20261125-142114-entes-97e59e | #122 t=3.0504s FAILED: AmmeterConnectionError: simulated timeout
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #123 t=3.0755s latency=11.4ms value=59.27448165626084 A
+2026-11-25 14:21:19,662 | ERROR    | test.20261125-142114-entes-97e59e | #124 t=3.1006s FAILED: AmmeterProtocolError: simulated non-numeric response
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #125 t=3.1255s latency=26.5ms value=24.06653309404136 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #126 t=3.1520s latency=23.4ms value=106.53511940647162 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #127 t=3.1755s latency=2.1ms value=82.89631668687963 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #128 t=3.2007s latency=1.1ms value=88.41976359596202 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #129 t=3.2257s latency=1.6ms value=21.022711438675916 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #130 t=3.2507s latency=1.8ms value=54.47530909795514 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #131 t=3.2755s latency=11.2ms value=42.64269557828504 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #132 t=3.3005s latency=3.2ms value=138.039397619342 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #133 t=3.3255s latency=12.0ms value=49.02101089990892 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #134 t=3.3506s latency=2.8ms value=46.31311393909602 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #135 t=3.3755s latency=15.3ms value=55.222948558394876 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #136 t=3.4008s latency=1.9ms value=49.03787578825768 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #137 t=3.4254s latency=26.0ms value=41.12154475889582 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #138 t=3.4515s latency=12.6ms value=72.26014819758474 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #139 t=3.4756s latency=2.3ms value=32.904440004230565 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #140 t=3.5006s latency=2.9ms value=43.629347890262636 A
+2026-11-25 14:21:19,662 | ERROR    | test.20261125-142114-entes-97e59e | #141 t=3.5253s FAILED: AmmeterConnectionError: simulated timeout
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #142 t=3.5507s latency=1.9ms value=11.944321057644846 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #143 t=3.5758s latency=2.0ms value=125.8593479717482 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #144 t=3.6005s latency=19.2ms value=77.57109334223969 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #145 t=3.6255s latency=27.9ms value=115.01867173265775 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #146 t=3.6534s latency=1.4ms value=111.75241195580482 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #147 t=3.6753s latency=20.6ms value=26.14758030143186 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #148 t=3.7006s latency=20.2ms value=13.671073595911682 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #149 t=3.7255s latency=26.2ms value=12.111691062909307 A
+2026-11-25 14:21:19,662 | ERROR    | test.20261125-142114-entes-97e59e | #150 t=3.7517s FAILED: AmmeterProtocolError: simulated non-numeric response
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #151 t=3.7757s latency=1.6ms value=386.02287560086245 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #152 t=3.8007s latency=17.6ms value=32.910938577523495 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #153 t=3.8255s latency=25.3ms value=67.3407807752689 A
+2026-11-25 14:21:19,662 | DEBUG    | test.20261125-142114-entes-97e59e | #154 t=3.8507s latency=11.7ms value=82.62964314482868 A
+2026-11-25 14:21:19,662 | ERROR    | test.20261125-142114-entes-97e59e | #155 t=3.8755s FAILED: AmmeterProtocolError: simulated non-numeric response
+2026-11-25 14:21:19,674 | DEBUG    | test.20261125-142114-entes-97e59e | #156 t=3.9007s latency=1.8ms value=33.892300708519166 A
+2026-11-25 14:21:19,674 | DEBUG    | test.20261125-142114-entes-97e59e | #157 t=3.9256s latency=27.7ms value=22.82126401222127 A
+2026-11-25 14:21:19,677 | DEBUG    | test.20261125-142114-entes-97e59e | #158 t=3.9533s latency=1.6ms value=58.29964229296478 A
+2026-11-25 14:21:19,677 | DEBUG    | test.20261125-142114-entes-97e59e | #159 t=3.9757s latency=2.3ms value=124.64127861328407 A
+2026-11-25 14:21:19,677 | DEBUG    | test.20261125-142114-entes-97e59e | #160 t=4.0004s latency=3.4ms value=12.236565985153524 A
+2026-11-25 14:21:19,677 | DEBUG    | test.20261125-142114-entes-97e59e | #161 t=4.0254s latency=25.5ms value=27.594447632563885 A
+2026-11-25 14:21:19,677 | DEBUG    | test.20261125-142114-entes-97e59e | #162 t=4.0508s latency=2.3ms value=22.16825476930273 A
+2026-11-25 14:21:19,677 | DEBUG    | test.20261125-142114-entes-97e59e | #163 t=4.0755s latency=24.0ms value=107.14911944115923 A
+2026-11-25 14:21:19,677 | DEBUG    | test.20261125-142114-entes-97e59e | #164 t=4.1005s latency=15.0ms value=34.329723072335646 A
+2026-11-25 14:21:19,677 | DEBUG    | test.20261125-142114-entes-97e59e | #165 t=4.1253s latency=3.3ms value=184.11277938144207 A
+2026-11-25 14:21:19,677 | DEBUG    | test.20261125-142114-entes-97e59e | #166 t=4.1505s latency=2.2ms value=53.1959631014966 A
+2026-11-25 14:21:19,677 | DEBUG    | test.20261125-142114-entes-97e59e | #167 t=4.1757s latency=2.0ms value=114.71462746973161 A
+2026-11-25 14:21:19,677 | DEBUG    | test.20261125-142114-entes-97e59e | #168 t=4.2008s latency=3.6ms value=24.079491189912023 A
+2026-11-25 14:21:19,677 | DEBUG    | test.20261125-142114-entes-97e59e | #169 t=4.2258s latency=27.4ms value=28.849296258269792 A
+2026-11-25 14:21:19,683 | DEBUG    | test.20261125-142114-entes-97e59e | #170 t=4.2532s latency=1.7ms value=80.830885893636 A
+2026-11-25 14:21:19,683 | DEBUG    | test.20261125-142114-entes-97e59e | #171 t=4.2758s latency=2.4ms value=110.7845802189203 A
+2026-11-25 14:21:19,683 | DEBUG    | test.20261125-142114-entes-97e59e | #172 t=4.3005s latency=18.5ms value=30.950689067024847 A
+2026-11-25 14:21:19,683 | DEBUG    | test.20261125-142114-entes-97e59e | #173 t=4.3254s latency=3.1ms value=18.787247175111773 A
+2026-11-25 14:21:19,683 | DEBUG    | test.20261125-142114-entes-97e59e | #174 t=4.3508s latency=2.1ms value=19.083245240737362 A
+2026-11-25 14:21:19,683 | DEBUG    | test.20261125-142114-entes-97e59e | #175 t=4.3757s latency=19.0ms value=57.169227290466836 A
+2026-11-25 14:21:19,683 | DEBUG    | test.20261125-142114-entes-97e59e | #176 t=4.4006s latency=19.2ms value=46.150208783973625 A
+2026-11-25 14:21:19,683 | DEBUG    | test.20261125-142114-entes-97e59e | #177 t=4.4253s latency=18.4ms value=162.38094384083314 A
+2026-11-25 14:21:19,683 | DEBUG    | test.20261125-142114-entes-97e59e | #178 t=4.4510s latency=3.5ms value=139.55221915935093 A
+2026-11-25 14:21:19,683 | DEBUG    | test.20261125-142114-entes-97e59e | #179 t=4.4755s latency=22.8ms value=42.69825215689705 A
+2026-11-25 14:21:19,683 | DEBUG    | test.20261125-142114-entes-97e59e | #180 t=4.5009s latency=3.1ms value=35.823716880020605 A
+2026-11-25 14:21:19,683 | DEBUG    | test.20261125-142114-entes-97e59e | #181 t=4.5255s latency=2.9ms value=918.2577411382993 A
+2026-11-25 14:21:19,683 | DEBUG    | test.20261125-142114-entes-97e59e | #182 t=4.5507s latency=19.4ms value=15.898799215610248 A
+2026-11-25 14:21:19,683 | DEBUG    | test.20261125-142114-entes-97e59e | #183 t=4.5756s latency=2.3ms value=78.11898142936819 A
+2026-11-25 14:21:19,683 | DEBUG    | test.20261125-142114-entes-97e59e | #184 t=4.6020s latency=16.5ms value=88.10991059701237 A
+2026-11-25 14:21:19,683 | DEBUG    | test.20261125-142114-entes-97e59e | #185 t=4.6256s latency=26.2ms value=123.27143958419919 A
+2026-11-25 14:21:19,683 | DEBUG    | test.20261125-142114-entes-97e59e | #186 t=4.6518s latency=1.6ms value=53.2928576537266 A
+2026-11-25 14:21:19,683 | DEBUG    | test.20261125-142114-entes-97e59e | #187 t=4.6756s latency=18.7ms value=19.901401423440287 A
+2026-11-25 14:21:19,683 | DEBUG    | test.20261125-142114-entes-97e59e | #188 t=4.7008s latency=3.0ms value=61.15573575316302 A
+2026-11-25 14:21:19,683 | DEBUG    | test.20261125-142114-entes-97e59e | #189 t=4.7253s latency=13.1ms value=76.72259073689465 A
+2026-11-25 14:21:19,683 | DEBUG    | test.20261125-142114-entes-97e59e | #190 t=4.7506s latency=18.4ms value=39.16699055298155 A
+2026-11-25 14:21:19,683 | DEBUG    | test.20261125-142114-entes-97e59e | #191 t=4.7754s latency=1.8ms value=51.26436293115853 A
+2026-11-25 14:21:19,683 | DEBUG    | test.20261125-142114-entes-97e59e | #192 t=4.8005s latency=17.0ms value=101.21033937711874 A
+2026-11-25 14:21:19,683 | DEBUG    | test.20261125-142114-entes-97e59e | #193 t=4.8254s latency=24.8ms value=52.22952411525178 A
+2026-11-25 14:21:19,691 | DEBUG    | test.20261125-142114-entes-97e59e | #194 t=4.8502s latency=2.2ms value=65.14901217447277 A
+2026-11-25 14:21:19,695 | DEBUG    | test.20261125-142114-entes-97e59e | #195 t=4.8756s latency=2.2ms value=83.42240822864575 A
+2026-11-25 14:21:19,695 | DEBUG    | test.20261125-142114-entes-97e59e | #196 t=4.9008s latency=2.0ms value=58.5282205596729 A
+2026-11-25 14:21:19,695 | DEBUG    | test.20261125-142114-entes-97e59e | #197 t=4.9253s latency=2.4ms value=104.89102451440861 A
+2026-11-25 14:21:19,695 | DEBUG    | test.20261125-142114-entes-97e59e | #198 t=4.9507s latency=13.4ms value=13.828383044527454 A
+2026-11-25 14:21:19,695 | DEBUG    | test.20261125-142114-entes-97e59e | #199 t=4.9757s latency=2.3ms value=47.60587566363146 A
+2026-11-25 14:21:19,710 | INFO     | test.20261125-142114-entes-97e59e | statistics n=181 mean=101.018 median=58.5282 std=164.7 min=10.274 max=1311.29
+2026-11-25 14:21:19,710 | INFO     | test.20261125-142114-entes-97e59e | check valid measurements: actual=181 limit=1
+2026-11-25 14:21:19,710 | INFO     | test.20261125-142114-entes-97e59e | check failure rate %: actual=9.5 limit=15
+2026-11-25 14:21:19,710 | INFO     | test.20261125-142114-entes-97e59e | check frequency ratio: actual=0.9998521625617418 limit=0.8
+2026-11-25 14:21:19,710 | INFO     | test.20261125-142114-entes-97e59e | VERDICT PASS

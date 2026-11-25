@@ -31,10 +31,14 @@ ammeters:
     command: "MEASURE_CIRCUTOR -get_measurement"
     reference_current_a: 0.03025    # E[dt] * 10 * E[V] = 0.0055 * 10 * 0.55
 
+# What the console table and the HTML reports show. Every statistic is always computed
+# and stored in the result JSON; this only selects what is displayed.
 analysis:
-  statistical_metrics: [mean, median, std_dev, min, max]
+  # available: count, mean, median, std_dev, min, max, range, cv, sem, ci95
+  statistical_metrics: [mean, median, std_dev, min, max, cv]
   visualization:
-    enabled: true
+    enabled: true                 # false = no HTML reports
+    # available: time_series, histogram, box_plot
     plot_types: [time_series, histogram, box_plot]
 
 result_management:

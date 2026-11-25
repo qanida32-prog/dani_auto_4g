@@ -20,15 +20,31 @@ class TestLogger:
 
     __test__ = False  # not a pytest test class
 
-    def __init__(self, test_name: str, log_dir: str | Path = DEFAULT_LOG_DIR) -> None:
+    def __init__(
+        self, test_name: str, log_dir: str | Path = DEFAULT_LOG_DIR, add_timestamp: bool = True
+    ) -> None:
         self._test_name = test_name
-        self.log_file = self._build_log_path(Path(log_dir))
+        self.log_file = self._build_log_path(Path(log_dir), add_timestamp)
         self.logger = self._setup_logger()
 
-    def _build_log_path(self, log_dir: Path) -> Path:
+    def _build_log_path(self, log_dir: Path, add_timestamp: bool) -> Path:
         log_dir.mkdir(parents=True, exist_ok=True)
+        if not add_timestamp:  # the name is already unique (e.g. a run id)
+            return log_dir / f"{self._test_name}.log"
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         return log_dir / f"{timestamp}_{self._test_name}.log"
+
+    def close(self) -> None:
+        """Release the file handle (Windows cannot delete or move an open log file)."""
+        for handler in list(self.logger.handlers):
+            handler.close()
+            self.logger.removeHandler(handler)
+
+    def __enter__(self) -> TestLogger:
+        return self
+
+    def __exit__(self, *exc_info: object) -> None:
+        self.close()
 
     def _setup_logger(self) -> logging.Logger:
         logger = logging.getLogger(f"test.{self._test_name}")
@@ -42,7 +58,9 @@ class TestLogger:
         file_handler.setLevel(logging.DEBUG)
         file_handler.setFormatter(logging.Formatter(LOG_FORMAT))
         logger.addHandler(file_handler)
-        # Console output goes through the root logger configured by setup_logging().
+        # File only: the per-sample detail would flood the console. The framework logs a
+        # one-line summary per run to the console separately.
+        logger.propagate = False
         return logger
 
     def info(self, message: str) -> None:

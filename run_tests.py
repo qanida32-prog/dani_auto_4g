@@ -24,7 +24,7 @@ from typing import Any
 
 from src.testing.emulators import EmulatorStartupError, start_emulators, stop_emulators
 from src.testing.plans import UnknownPlanError, list_plans
-from src.testing.report import fmt
+from src.testing.report import METRICS, ReportOptions, fmt
 from src.testing.results import ResultNotFoundError
 from src.testing.sampling import SamplingConfig, SamplingConfigError
 from src.testing.test_framework import AmmeterTestFramework, UnknownAmmeterError
@@ -106,7 +106,7 @@ def cmd_run(fw: AmmeterTestFramework, args: argparse.Namespace) -> int:
         stop_emulators(emulators)
 
     print()
-    print_runs([r.to_dict() for r in results])
+    print_runs([r.to_dict() for r in results], fw.report_options)
     print_failed_checks(results)
     if suite:
         print()
@@ -178,7 +178,7 @@ def cmd_show(fw: AmmeterTestFramework, args: argparse.Namespace) -> int:
     print(f"sampling {meta['sampling']}")
     print(f"plan     {meta.get('plan') or '-'}")
     print()
-    print_runs([run])
+    print_runs([run], fw.report_options)
     if run.get("verdict"):
         print()
         print_table(
@@ -219,28 +219,23 @@ def print_failed_checks(results) -> None:
             print(f"  {r.ammeter}: FAILED {check}")
 
 
-def print_runs(runs: list[dict[str, Any]]) -> None:
+def print_runs(runs: list[dict[str, Any]], options: ReportOptions) -> None:
+    """Summary table; the statistics columns follow ``analysis.statistical_metrics``."""
     rows = []
     for r in runs:
-        s = r["analysis"]["statistics"] or {}
+        stats = r["analysis"]["statistics"]
+        cells = [METRICS[m][1](stats) if stats else "-" for m in options.metrics]
         rows.append(
             [
                 r["ammeter"],
-                s.get("count", 0),
-                fmt(s.get("mean")),
-                fmt(s.get("median")),
-                fmt(s.get("std_dev"), 4),
-                fmt(s.get("min")),
-                fmt(s.get("max")),
+                stats["count"] if stats else 0,
+                *cells,
                 fmt(r["analysis"]["consistency"]["failure_rate_percent"], 3),
                 verdict_label((r.get("verdict") or {}).get("passed")),
             ]
         )
-    print_table(
-        ["ammeter", "n", "mean (A)", "median (A)", "std (A)", "min (A)", "max (A)", "fail %"]
-        + ["result"],
-        rows,
-    )
+    headers = ["ammeter", "n", *(METRICS[m][0] for m in options.metrics), "fail %", "result"]
+    print_table(headers, rows)
 
 
 def print_comparison(comparison: dict[str, Any]) -> None:
