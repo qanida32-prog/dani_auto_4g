@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import math
-import time
 
 import pytest
 
@@ -146,23 +145,38 @@ def test_real_clock_timing_is_close_to_target():
     assert max(s.jitter_s for s in run.samples) < 0.08
 
 
-def coarse_sleep(seconds: float) -> None:
-    """time.sleep as on Windows before Python 3.11: rounded up to the ~15.6 ms timer tick."""
-    tick = 0.0156
-    time.sleep(math.ceil(seconds / tick) * tick if seconds > 0 else 0)
+class CoarseTimerClock(FakeClock):
+    """A fake clock whose sleep behaves like Windows before Python 3.11: every sleep is
+    rounded up to the ~15.6 ms timer tick. ``sleep(0)`` (a yield) costs 0.1 ms.
+
+    Simulated, not real, time: a real-clock version of this test failed on shared macOS
+    CI runners, which sometimes oversleep by 30+ ms for reasons that have nothing to do
+    with the sampler.
+    """
+
+    TICK = 0.0156
+    YIELD = 0.0001
+
+    def sleep(self, seconds: float) -> None:
+        self.now += math.ceil(seconds / self.TICK) * self.TICK if seconds > 0 else self.YIELD
+
+
+def mean_jitter_ms(run) -> float:
+    return 1000 * sum(s.jitter_s for s in run.samples) / len(run.samples)
 
 
 def test_hybrid_sleep_keeps_the_rate_with_a_coarse_timer():
     """Regression: CI on Windows/Python 3.10 reached only ~87 % of 40 Hz."""
-    cfg = SamplingConfig.from_values(20, sampling_frequency_hz=40)
-    precise = Sampler(cfg, sleep=coarse_sleep, spin_margin_s=0.02).run(lambda: 1.0)
-    naive = Sampler(cfg, sleep=coarse_sleep, spin_margin_s=0.0).run(lambda: 1.0)
+    cfg = SamplingConfig.from_values(20, sampling_frequency_hz=40)  # 25 ms slots
 
-    assert precise.elapsed_s == pytest.approx(0.5, abs=0.05)
-    # mean, not max: the OS can pause any process for a slot now and then
-    assert sum(s.jitter_s for s in precise.samples) / len(precise.samples) < 0.005
-    # without the spin phase every slot oversleeps by part of a tick
-    assert sum(s.jitter_s for s in naive.samples) / len(naive.samples) > 0.004
+    clock = CoarseTimerClock()
+    precise = Sampler(cfg, clock, clock.sleep, spin_margin_s=0.02).run(lambda: 1.0)
+    clock = CoarseTimerClock()
+    naive = Sampler(cfg, clock, clock.sleep, spin_margin_s=0.0).run(lambda: 1.0)
+
+    assert mean_jitter_ms(precise) < 0.2  # at most one 0.1 ms yield late
+    assert mean_jitter_ms(naive) > 4  # every slot oversleeps by part of a tick
+    assert precise.elapsed_s == pytest.approx(0.5, abs=0.001)
 
 
 def test_fake_clock_never_spins():
