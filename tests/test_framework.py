@@ -30,6 +30,11 @@ def lab(tmp_path):
         "sampling_frequency_hz": 20,
     }
     config["result_management"]["results_dir"] = str(tmp_path / "results")
+    # These tests check behaviour, so their verdict must not depend on how fast the machine
+    # is. Shared CI runners (macOS) stall now and then: one run saw 74 ms gaps at 20 Hz.
+    # The frequency check itself is unit-tested with exact synthetic timings
+    # (test_acceptance_and_plans.py, test_analysis.py).
+    config["acceptance_criteria"]["min_frequency_ratio"] = None
     emulators = {}
     for name, cls in EMULATORS.items():
         port = get_free_port()
